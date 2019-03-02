@@ -1,8 +1,0 @@
-{
-    "defaultSettings": {
-        "prefix": "!",
-        "welcomeChannel": "",
-        "welcomeMessage": "Welcome **{{user}}** to **{{guild}}**!\n*Note, this is changable in `!settings`*",
-        "welcomeEnabled": "true"
-    }
-}
