@@ -1,0 +1,36 @@
+{
+  "name": "Outh",
+  "version": "1.0.0",
+  "description": "",
+  "main": "bot.js",
+  "dependencies": {
+    "bot-utils": "^1.2.1",
+    "discord.js": "github:discordjs/discord.js",
+    "discord.js-lavalink": "^2.2.2",
+    "express": "^4.16.4",
+    "ffmpeg": "0.0.4",
+    "imageurl-base64": "^1.0.0",
+    "klasa": "^0.4.0",
+    "ksoft.js": "^1.3.2",
+    "moment": "^2.24.0",
+    "ms": "^2.1.1",
+    "node-vibrant": "^3.2.0-alpha",
+    "num-words": "^1.0.1",
+    "os-utils": "0.0.14",
+    "pug": "^2.0.3",
+    "pushbullet": "^2.4.0",
+    "quick.db": "^7.0.0-b21",
+    "rgb-hex": "^2.1.0",
+    "simple-youtube-api": "^5.1.1",
+    "speedtest-net": "^1.5.1",
+    "systeminformation": "^4.0.11",
+    "ytdl-core": "^0.29.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

@@ -1,0 +1,169 @@
+nav#navcolour.navbar.navbar-session.float-panel.scroll-progress.is-fixed-top.is-spaced(style='background-color: transparent;')
+  .container
+    .navbar-brand
+      a.navbar-item.is-active(href='/', style='background-color: white;border-radius: 1000px;width: 61px;')
+        img(src='https://bot.ender.site/img/enderbot.png', alt='Ender Bot', style='max-height: 2.5rem;')
+      a.navbar-item.is-hidden-desktop(href='https://github.com/EnderDev', target='_blank')
+        span.icon(style='color: #333;')
+          i.fab.fa-github
+      a.navbar-item.is-hidden-desktop(href='https://twitter.com/xEdnerCrafterx', target='_blank')
+        span.icon(style='color: #55acee;')
+          i.fab.fa-twitter
+      .navbar-burger.burger(data-target='navMenubd-example')
+        span
+        span
+        span
+    #navMenubd-example.navbar-menu
+      .navbar-start
+        .navbar-item.is-hoverable
+          a#txtcmd.navbar-item(href='commands', style='background-color: white;border-radius: 290486px; color: rgb(74, 74, 74); text-shadow: unset;')
+            i#txtcmd.fas.fa-terminal
+            |  Commands
+        .navbar-item.is-hoverable
+          a#txtcmd.navbar-item(href='https://docs.ender.site', style='background-color: white;border-radius: 290486px; color: rgb(74, 74, 74); text-shadow: unset;')
+            i#txtdoc.fas.fa-book
+            |  Docs
+        .navbar-item.is-hoverable
+          a#txtcmd.navbar-item(href='https://bot.ender.site/profile/search', style='background-color: white;border-radius: 290486px; color: rgb(74, 74, 74); text-shadow: unset;')
+            i#txtrpt.fas.fa-user-circle
+            |  Profiles
+        #txtapi.navbar-item.has-dropdown.is-hoverable(style='background-color: white;border-radius: 290486px; color: rgb(74, 74, 74); text-shadow: unset;')
+          .navbar-link.is-rounded
+            i.fas.fa-ellipsis-h
+            |  More
+          #moreDropdown.navbar-dropdown
+            a.navbar-item(href='/stats')
+              .level.is-mobile
+                .level-left
+                  .level-item
+                    p
+                      strong
+                        i.fas.fa-chart-line
+                        |  Statistics
+                      br
+                      small Statistics for Ender Bot like uptime and users.
+            hr.navbar-divider
+            a.navbar-item(href='https://bot.ender.site/privacy')
+              .level.is-mobile
+                .level-left
+                  .level-item
+                    p
+                      strong
+                        i.fas.fa-shield-alt
+                        |  Privacy Policy
+                      br
+                      small View our Privacy Policy.
+            a.navbar-item(href='https://bot.ender.site/tos')
+              .level.is-mobile
+                .level-left
+                  .level-item
+                    p
+                      strong
+                        i.fas.fa-gavel
+                        |  TOS
+                      br
+                      small View our Terms of Service.
+      .navbar-end
+        a.navbar-item.is-hidden-desktop-only(href='https://github.com/EnderDev', target='_blank')
+          span.icon(style='color: #333;')
+            i.fab.fa-github
+        a.navbar-item.is-hidden-desktop-only(href='https://twitter.com/xEdnerCrafterx', target='_blank')
+          span.icon(style='color: #55acee;')
+            i.fab.fa-twitter
+        .navbar-item
+          .field.is-grouped
+            p.control
+              a#inviteender.button.is-light.is-rounded(href='https://discordapp.com/oauth2/authorize?client_id=371685425351229441&scope=bot&permissions=536341759&response_type=code&redirect_uri=https%3A%2F%2Fbot.ender.site%2Fthanks')
+                span.icon
+                  i.fab.fa-discord
+                span Invite
+        #loginuser.navbar-item.has-dropdown.is-hoverable(style='border-radius: 290486px; text-shadow: unset; height: 36px;')
+          #loginbutton.navbar-link.is-rounded(style='background-color: white; border-radius: 290486px; ')
+            i.fas.fa-bolt
+            |   Login
+          #moreDropdown.navbar-dropdown.dropdown-right
+            a.navbar-item(onclick='login()')
+              .level.is-mobile
+                .level-left
+                  .level-item
+                    p
+                      strong
+                        i.fab.fa-discord
+                        |  Login through Discord
+                      br
+                      small Login to access profile settings and more.
+            hr.navbar-divider
+            a.navbar-item(href='mailto:me@ender.site', disabled='')
+              .level.is-mobile(disabled='')
+                .level-left(disabled='')
+                  .level-item(disabled='')
+                    p
+                      small.is-4(disabled='')
+                        i.fas.fa-star
+                        |  Ender Bot is made by Ender#0002
+        style.
+          .loader{
+          margin: 0 0 2em;
+          height: 100px;
+          width: 20%;
+          text-align: center;
+          padding: 1em;
+          margin: 0 auto 1em;
+          display: inline-block;
+          vertical-align: top;
+          }
+        .navbar-item.has-dropdown.is-hoverable(style='border-radius: 290486px; text-shadow: unset; height: 36px;')
+          a#userloggedin.navbar-link.is-rounded(style='background-color: white; border-radius: 290486px; display: none;')
+            span.icon
+              img#pfplog.is-loading(style='border-radius: 50px;', onerror="this.src = 'https://cdn.discordapp.com/embed/avatars/0.png'", src='img/loader.svg')
+            p#loggedin  Loading
+          #moreDropdown.navbar-dropdown.dropdown-right(style='width: 320px; word-wrap: break-word;')
+            a#myProfile.navbar-item(href='https://youtu.be/dQw4w9WgXcQ')
+              .level.is-mobile
+                .level-left
+                  .level-item
+                    p
+                      strong
+                        i.fas.fa-user-circle
+                        |  My Profile
+                      br
+                      small View your own Ender Bot profile.
+            a#Dashboard.navbar-item(href='https://bot.ender.site/dashboard')
+              .level.is-mobile
+                .level-left
+                  .level-item
+                    p
+                      strong
+                        i.fas.fa-wrench
+                        |  Dashboard
+                      br
+                      small Make adjustments to your server.
+            hr.navbar-divider
+            a.navbar-item(href='https://bot.ender.site/user-settings')
+              .level.is-mobile
+                .level-left
+                  .level-item
+                    p
+                      strong
+                        i.fas.fa-cogs
+                        |  Account Settings
+                      br
+                      small Modify account options like description and bio.
+            a.navbar-item(onclick='logout()')
+              .level.is-mobile
+                .level-left
+                  .level-item
+                    p
+                      strong
+                        i.fas.fa-door-open
+                        |  Logout
+                      br
+                      small Awh, goodbye!
+            hr.navbar-divider
+            a.navbar-item(href='https://bot.ender.site/user-settings')
+              .level.is-mobile
+                .level-left
+                  .level-item
+                    p
+                      i.fas.fa-lock
+                      small#smallog Oops! An error occoured, please report this to Ender#0002

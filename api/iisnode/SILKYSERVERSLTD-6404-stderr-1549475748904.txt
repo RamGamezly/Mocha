@@ -1,0 +1,12 @@
+Application has thrown an uncaught exception and is terminated:
+Error: EPERM: operation not permitted, lstat 'C:\Users\Administrator'
+    at Object.realpathSync (fs.js:1457:7)
+    at toRealPath (internal/modules/cjs/loader.js:202:13)
+    at Function.Module._findPath (internal/modules/cjs/loader.js:255:24)
+    at Function.Module._resolveFilename (internal/modules/cjs/loader.js:578:25)
+    at Function.Module._load (internal/modules/cjs/loader.js:507:25)
+    at Module.require (internal/modules/cjs/loader.js:637:17)
+    at require (internal/modules/cjs/helpers.js:22:18)
+    at Object.<anonymous> (C:\Program Files\iisnode\interceptor.js:210:1)
+    at Module._compile (internal/modules/cjs/loader.js:689:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:700:10)

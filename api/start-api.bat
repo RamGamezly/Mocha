@@ -1,0 +1,1 @@
+runas /user:Administrator 0.bat

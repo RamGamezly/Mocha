@@ -1,0 +1,13 @@
+{ 
+    "token": "MzcxNjg1NDI1MzUxMjI5NDQx.DpX5GA.NWVProSschY7TYXDzl6xDqLLQI8",
+    "owner": "217562587938816000",
+    "prefix": "e!",
+    "nodes": [
+        { "host": "0.0.0.0", "port": 2333, "region": "eu-west", "password": "restfulapi" }
+    ],
+    "restnode": {
+        "host": "0.0.0.0",
+        "port": 2333,
+        "password":"restfulapi"
+    }
+}

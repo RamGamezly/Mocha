@@ -1,0 +1,87 @@
+<html>
+<head>
+    <title>iisnode logs</title>
+    <style type="text/css">
+        body
+        {
+            font-family: "Trebuchet MS" , Arial, Helvetica, sans-serif;
+        }
+        table
+        {
+            border-collapse: collapse;
+        }
+        td, th
+        {
+            border: 1px solid lightgray;
+            padding: 3px 7px 2px 7px;
+        }
+        th
+        {
+            text-align: left;
+            padding-top: 5px;
+            padding-bottom: 4px;
+            background-color: Gray;
+            color: #ffffff;
+        }
+        td.stderr
+        {
+            color: Red;
+        }
+    </style>
+</head>
+<body>
+    <table id="logFilesTable">
+        <tr>
+            <th>
+                Computer name
+            </th>
+            <th>
+                PID
+            </th>
+            <th>
+                Type
+            </th>
+            <th>
+                Created
+            </th>
+            <th>
+                Link
+            </th>
+        </tr>
+    </table>
+    <p id="lastUpdated"></p>
+    <script type="text/javascript">
+
+        // this is replaced with actual data at runtime by code in interceptor.js
+        var logFiles = [{"file":"SILKYSERVERSLTD-2144-stderr-1549475744295.txt","computername":"SILKYSERVERSLTD","pid":2144,"type":"stderr","created":1549475744295},{"file":"SILKYSERVERSLTD-2224-stderr-1549481407163.txt","computername":"SILKYSERVERSLTD","pid":2224,"type":"stderr","created":1549481407163},{"file":"SILKYSERVERSLTD-2676-stderr-1549481403116.txt","computername":"SILKYSERVERSLTD","pid":2676,"type":"stderr","created":1549481403116},{"file":"SILKYSERVERSLTD-3016-stderr-1549481728044.txt","computername":"SILKYSERVERSLTD","pid":3016,"type":"stderr","created":1549481728044},{"file":"SILKYSERVERSLTD-3164-stderr-1549481580486.txt","computername":"SILKYSERVERSLTD","pid":3164,"type":"stderr","created":1549481580486},{"file":"SILKYSERVERSLTD-3480-stderr-1549475887413.txt","computername":"SILKYSERVERSLTD","pid":3480,"type":"stderr","created":1549475887413},{"file":"SILKYSERVERSLTD-3588-stderr-1549475611991.txt","computername":"SILKYSERVERSLTD","pid":3588,"type":"stderr","created":1549475611991},{"file":"SILKYSERVERSLTD-3900-stderr-1549475998603.txt","computername":"SILKYSERVERSLTD","pid":3900,"type":"stderr","created":1549475998603},{"file":"SILKYSERVERSLTD-4364-stderr-1549475655117.txt","computername":"SILKYSERVERSLTD","pid":4364,"type":"stderr","created":1549475655117},{"file":"SILKYSERVERSLTD-4824-stderr-1549477080289.txt","computername":"SILKYSERVERSLTD","pid":4824,"type":"stderr","created":1549477080289},{"file":"SILKYSERVERSLTD-4984-stderr-1549475886273.txt","computername":"SILKYSERVERSLTD","pid":4984,"type":"stderr","created":1549475886273},{"file":"SILKYSERVERSLTD-5036-stderr-1549481280865.txt","computername":"SILKYSERVERSLTD","pid":5036,"type":"stderr","created":1549481280865},{"file":"SILKYSERVERSLTD-5928-stderr-1549481256656.txt","computername":"SILKYSERVERSLTD","pid":5928,"type":"stderr","created":1549481256656},{"file":"SILKYSERVERSLTD-6404-stderr-1549475748904.txt","computername":"SILKYSERVERSLTD","pid":6404,"type":"stderr","created":1549475748904},{"file":"SILKYSERVERSLTD-6632-stderr-1549475994384.txt","computername":"SILKYSERVERSLTD","pid":6632,"type":"stderr","created":1549475994384},{"file":"SILKYSERVERSLTD-6776-stderr-1549475943552.txt","computername":"SILKYSERVERSLTD","pid":6776,"type":"stderr","created":1549475943552},{"file":"SILKYSERVERSLTD-7084-stderr-1549481568908.txt","computername":"SILKYSERVERSLTD","pid":7084,"type":"stderr","created":1549481568908},{"file":"SILKYSERVERSLTD-7156-stderr-1549475954629.txt","computername":"SILKYSERVERSLTD","pid":7156,"type":"stderr","created":1549475954629},{"file":"SILKYSERVERSLTD-7404-stderr-1549481745169.txt","computername":"SILKYSERVERSLTD","pid":7404,"type":"stderr","created":1549481745169},{"file":"SILKYSERVERSLTD-7668-stderr-1549481412288.txt","computername":"SILKYSERVERSLTD","pid":7668,"type":"stderr","created":1549481412288},{"file":"SILKYSERVERSLTD-8116-stderr-1549481453523.txt","computername":"SILKYSERVERSLTD","pid":8116,"type":"stderr","created":1549481453523}];
+        var lastUpdated = 1549481745185;
+        var date = new Date();
+
+        date.setTime(lastUpdated);
+        document.getElementById('lastUpdated').innerHTML = 'Index was last updated ' + date;
+
+        logFiles.sort(function (a, b) {
+            return b.created - a.created;
+        });
+
+        var logFilesTable = document.getElementById("logFilesTable");
+        for (var i = 0; i < logFiles.length; i++) {
+            var logFile = logFiles[i];
+            date.setTime(logFile.created);
+            var row = logFilesTable.insertRow(-1);
+            var computerNameCell = row.insertCell(0);
+            var pidCell = row.insertCell(1);
+            var typeCell = row.insertCell(2);
+            var dateCell = row.insertCell(3);
+            var logCell = row.insertCell(4);
+            computerNameCell.innerHTML = logFile.computername;
+            pidCell.innerHTML = logFile.pid.toString();
+            typeCell.innerHTML = logFile.type;
+            typeCell.setAttribute('class', logFile.type);
+            dateCell.innerHTML = date.toString();
+            logCell.innerHTML = '<a href="' + logFile.file + '">log</a>';
+        };
+
+    </script>
+</body>
+</html>
