@@ -6,6 +6,7 @@ const Discord = require('discord.js');
 const db = require('quick.db');
 var PushBullet = require('pushbullet');
 var pusher = new PushBullet('o.q4NxdXf9foKSbKFVv4vggAex7taQcCig');
+var token = fs.readFileSync("authorization.json");
 
 const Ksoft = require('ksoft.js');
 const ksoft = new Ksoft("32b717b9767379777eba7dce4f954a5d183e354d");
@@ -236,4 +237,4 @@ client.on("guildMemberAdd", async (member, user) => {
 
 
  
-  client.login("MzcxNjg1NDI1MzUxMjI5NDQx.DpX5GA.NWVProSschY7TYXDzl6xDqLLQI8");
+  client.login(token.token);
