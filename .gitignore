@@ -1,0 +1,9 @@
+*.sqlite
+lavalink.json
+teapot.jpg
+oldcommands
+build
+api
+_
+start.bat
+api.bat
