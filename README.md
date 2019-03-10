@@ -1,5 +1,3 @@
-{::nomarkdown}
-
 <img src="https://bot.ender.site/img/enderbot.png" width="100">
 
 {:/}
