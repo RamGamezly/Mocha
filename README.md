@@ -1,4 +1,4 @@
-<img src="https://bot.ender.site/img/enderbot.png" alt="Ender Bot" width="200" height="200">
+![](https://bot.ender.site/img/enderbot.png =250x)
 # Ender Bot
 ## A bot for the new age, with profiles, casino, weather and memes. 
 [![forthebadge](https://forthebadge.com/images/badges/made-with-javascript.svg)](https://forthebadge.com)
