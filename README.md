@@ -4,5 +4,5 @@
 </p>
 <h1 class="title" align="center">Ender</h1>
 <h2 class="subtitle">A bot for the new age, with profiles, casino, weather and memes.</h2>
-
+<span style="display: none"></span>
 
