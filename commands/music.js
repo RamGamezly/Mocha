@@ -5,6 +5,7 @@ const fetch = require("node-fetch");
 const { PlayerManager } = require("discord.js-lavalink");
 const { inspect } = require("util");
 var config = require('../lavalink.json')
+const botconfig = require("../authorization.json");
 const defaultRegions = {
     asia: ["sydney", "singapore", "japan", "hongkong"],
     eu: ["london", "frankfurt", "amsterdam", "russia", "eu-central", "eu-west"],
@@ -12,7 +13,7 @@ const defaultRegions = {
 };
 
 const YouTube = require('simple-youtube-api');
-const youtube = new YouTube('AIzaSyBHsqdn_YMOCMFnu7nj8xCYFGT0c7eEV2c');
+const youtube = new YouTube(botconfig.youtube);
 const numWords = require('num-words');
 const moment = require("moment");
 
@@ -51,7 +52,7 @@ class MusicClient extends Client {
 
 const client = new MusicClient();
 
-client.login("MzcxNjg1NDI1MzUxMjI5NDQx.DpX5GA.NWVProSschY7TYXDzl6xDqLLQI8");
+client.login(botconfig.token);
 
 
 client.on("error", console.error)

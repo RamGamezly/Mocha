@@ -12,7 +12,7 @@ app.set('view engine', 'pug')
 var Vibrant = require('node-vibrant')
 var Long = require("long");
 const rateLimit = require("express-rate-limit");
-var token = fs.readFileSync("authorization.json");
+const config = require("./authorization.json");
 
 
 const limiter = rateLimit({
@@ -21,7 +21,7 @@ const limiter = rateLimit({
   });
 
 const client = new Discord.Client();
-client.login(token.token);
+client.login(config.token);
 
 process.on('uncaughtException', function (err) {
     fs.writeFileSync("test.txt",  err, "utf8");    

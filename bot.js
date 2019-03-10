@@ -5,17 +5,17 @@ const fs = require('fs');
 const Discord = require('discord.js');
 const db = require('quick.db');
 var PushBullet = require('pushbullet');
-var pusher = new PushBullet('o.q4NxdXf9foKSbKFVv4vggAex7taQcCig');
-var token = fs.readFileSync("authorization.json");
+const config = require("./authorization.json");
+var pusher = new PushBullet(config.pushbullet);
 
 const Ksoft = require('ksoft.js');
-const ksoft = new Ksoft("32b717b9767379777eba7dce4f954a5d183e354d");
+const ksoft = new Ksoft(config.ksoft);
 
 const talkedRecently = new Set();
 
 var opts = {
   maxResults: 5,
-  key: 'AIzaSyAC_9B0XCKW9Y-dd90p7Zd1foeerMZv3M8'
+  key: ''
 };
 
 Structures.extend('Guild', Guild => {
@@ -237,4 +237,4 @@ client.on("guildMemberAdd", async (member, user) => {
 
 
  
-  client.login(token.token);
+  client.login(config.token);
