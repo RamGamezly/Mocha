@@ -3,3 +3,4 @@
 </p>
 <h1 align="center">Ender Bot</h1>
 <h2 align="center">A bot for the new age, with profiles, casino, weather and memes. </h2>
+
