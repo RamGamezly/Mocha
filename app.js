@@ -10,6 +10,13 @@ var crypto = require('crypto');
 var i2b = require("imageurl-base64");
 app.set('view engine', 'pug')
 var Vibrant = require('node-vibrant')
+var Long = require("long");
+const rateLimit = require("express-rate-limit");
+
+const limiter = rateLimit({
+    windowMs: 3000,
+    max: 5
+  });
 
 const client = new Discord.Client();
 client.login("MzcxNjg1NDI1MzUxMjI5NDQx.DpX5GA.NWVProSschY7TYXDzl6xDqLLQI8");
@@ -17,6 +24,25 @@ client.login("MzcxNjg1NDI1MzUxMjI5NDQx.DpX5GA.NWVProSschY7TYXDzl6xDqLLQI8");
 process.on('uncaughtException', function (err) {
     fs.writeFileSync("test.txt",  err, "utf8");    
 })
+
+const getDefaultChannel = (guild) => {
+    // get "original" default channel
+    if(guild.channels.has(guild.id))
+      return guild.channels.get(guild.id)
+  
+    // Check for a "general" channel, which is often default chat
+    const generalChannel = guild.channels.find(channel => channel.name === "general");
+    if (generalChannel)
+      return generalChannel;
+    // Now we get into the heavy stuff: first channel in order where the bot can speak
+    // hold on to your hats!
+    return guild.channels
+     .filter(c => c.type === "text" &&
+       c.permissionsFor(guild.client.user).has("SEND_MESSAGES"))
+     .sort((a, b) => a.position - b.position ||
+       Long.fromString(a.id).sub(Long.fromString(b.id)).toNumber())
+     .first();
+}
 
 app.get('/', async (req, res) => {
     console.log('GET Request to /')
@@ -320,8 +346,20 @@ app.get('/dash/:guildId', async (req, res) => {
                                         }
                                         Vibrant.from(gic).getPalette()
                                             .then((palette) => {
-                                        res.render('index', { guild: { name: `${g.name}`, icon: `${gic}`, vibrant: `rgb(${palette.Vibrant._rgb[0]}, ${palette.Vibrant._rgb[1]}, ${palette.Vibrant._rgb[2]})` }, title: `Dashboard • ${g.name}`, user: { name: `${nu.user.username}`, avatar: `https://cdn.discordapp.com/avatars/${nu.user.id}/${nu.user.avatar}.png?size=1024` } })
-                                    }) }
+                                            let prefix = db.fetch(`prefix-${g.id}`)
+                                            let msgs = db.fetch(`msgs-${g.id}`)
+                                            var online = 0
+                                            g.members.forEach(m => {
+                                                if(m.presence.status === "online") {
+                                                        ++online
+                                                }
+                                            });
+                                            const channel = getDefaultChannel(g);
+                                            //var inviteurl = ".";
+                                            channel.createInvite()
+                                                .then(invite => { var inviteurl = invite.toString()                                        
+                                        res.render('index', { guild: { name: `${g.name}`, icon: `${gic}?size=1024`, vibrant: `rgb(${palette.Vibrant._rgb[0]}, ${palette.Vibrant._rgb[1]}, ${palette.Vibrant._rgb[2]})`, memberCount: `${g.memberCount}`, owner: `${g.ownerID}`, online: `${online}`, invite: `${inviteurl}`, ownertag: `${g.owner.user.username}#${g.owner.user.discriminator}`, messages: `${msgs}` }, title: `Dashboard • ${g.name}`, user: { name: `${nu.user.username}`, avatar: `https://cdn.discordapp.com/avatars/${nu.user.id}/${nu.user.avatar}.png?size=1024` }, bot: { prefix: `${prefix}` } })
+                                    }  )  }) }
                                     else {
                                         res.render('errors/403', { title: 'Dashboard • No permission' })
                                     }
@@ -346,6 +384,272 @@ app.get('/dash/:guildId', async (req, res) => {
         });
     }
 });
+
+app.post('/members/:guildId/:limit', limiter, async (req, res) => {
+    res.set({ 'Access-Control-Allow-Origin': 'https://bot.ender.site', 'Access-Control-Allow-Headers': 'authorization' })
+    var auth = req.get('Authorization')
+    if(auth) {
+        fetch('https://discordapp.com/api/users/@me', {
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth}` },
+        }).then(async i => {
+            var data = await i.text()
+            var json = JSON.parse(data)
+                if(json.id) {
+                        client.users.fetch(json.id)
+                        .catch(err => { if(err == 'DiscordAPIError: Unknown User') { 
+                            var obj = { error: `Unknown User` }; 
+                            var json = JSON.stringify(obj); 
+                            res.send(json)  } else { var obj = { error: `${err}` }; 
+                            var json = JSON.stringify(obj); 
+                            res.send(json) } })
+                        .then(async result => { 
+                            const g = client.guilds.get(req.params.guildId);
+                            if(g) {
+                                const nu = g.members.get(result.id);
+                                if(nu !== undefined) {
+                                    const p = nu.hasPermission("MANAGE_GUILD");
+                                    if(p == true) {
+                                        if(req.params.limit) {
+                                            var limit = 5
+                                        }
+                                        if(req.params.limit == 'all') {
+                                            var limit = g.memberCount
+                                        }
+                                        fetch(`https://discordapp.com/api/guilds/${g.id}/members?limit=${limit}`, {
+                                            headers: { 'Content-Type': 'application/json', 'Authorization': `Bot MzcxNjg1NDI1MzUxMjI5NDQx.DpX5GA.NWVProSschY7TYXDzl6xDqLLQI8` },
+                                        }).then(async i => {
+                                            var data = await i.text()
+                                            var json = JSON.parse(data)
+                                            res.send(json);
+                                        });
+                                    }
+                                    else {
+                                        res.render('errors/403', { title: 'Dashboard • No permission' })
+                                    }
+                                }
+                                else {
+                                    res.render('errors/404-user', { title: 'Dashboard • User not found' })
+                                }
+                            }
+                            else {
+                                res.render('errors/404-server', { title: 'Dashboard • Server not found' })
+                            }
+                        });
+                }
+                else {
+                    res.render('errors/400', { title: 'Dashboard • Invalid Token' })
+                }
+    });
+    }
+    else {
+        res.status(403).json({
+            message: 'Missing authorization'
+        });
+    }
+});
+
+app.post('/roles/:guildId/:limit', limiter, async (req, res) => {
+    res.set({ 'Access-Control-Allow-Origin': 'https://bot.ender.site', 'Access-Control-Allow-Headers': 'authorization' })
+    var auth = req.get('Authorization')
+    if(auth) {
+        fetch('https://discordapp.com/api/users/@me', {
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth}` },
+        }).then(async i => {
+            var data = await i.text()
+            var json = JSON.parse(data)
+                if(json.id) {
+                        client.users.fetch(json.id)
+                        .catch(err => { if(err == 'DiscordAPIError: Unknown User') { 
+                            var obj = { error: `Unknown User` }; 
+                            var json = JSON.stringify(obj); 
+                            res.send(json)  } else { var obj = { error: `${err}` }; 
+                            var json = JSON.stringify(obj); 
+                            res.send(json) } })
+                        .then(async result => { 
+                            const g = client.guilds.get(req.params.guildId);
+                            if(g) {
+                                const nu = g.members.get(result.id);
+                                if(nu !== undefined) {
+                                    const p = nu.hasPermission("MANAGE_GUILD");
+                                    if(p == true) {
+                                            if(req.params.limit === 5) {
+                                                res.send(g.roles.first(10));
+                                            }
+                                            else {
+                                                res.send(g.roles);
+                                            }
+                                    }
+                                    else {
+                                        res.render('errors/403', { title: 'Dashboard • No permission' })
+                                    }
+                                }
+                                else {
+                                    res.render('errors/404-user', { title: 'Dashboard • User not found' })
+                                }
+                            }
+                            else {
+                                res.render('errors/404-server', { title: 'Dashboard • Server not found' })
+                            }
+                        });
+                }
+                else {
+                    res.render('errors/400', { title: 'Dashboard • Invalid Token' })
+                }
+    });
+    }
+    else {
+        res.status(403).json({
+            message: 'Missing authorization'
+        });
+    }
+});
+
+app.post('/statistics/:guildId/:statType', limiter, async (req, res) => {
+    res.set({ 'Access-Control-Allow-Origin': 'https://bot.ender.site', 'Access-Control-Allow-Headers': 'authorization' })
+    var auth = req.get('Authorization')
+    if(auth) {
+        fetch('https://discordapp.com/api/users/@me', {
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth}` },
+        }).then(async i => {
+            var data = await i.text()
+            var json = JSON.parse(data)
+                if(json.id) {
+                        client.users.fetch(json.id)
+                        .catch(err => { if(err == 'DiscordAPIError: Unknown User') { 
+                            var obj = { error: `Unknown User` }; 
+                            var json = JSON.stringify(obj); 
+                            res.send(json)  } else { var obj = { error: `${err}` }; 
+                            var json = JSON.stringify(obj); 
+                            res.send(json) } })
+                        .then(async result => { 
+                            const g = client.guilds.get(req.params.guildId);
+                            if(g) {
+                                const nu = g.members.get(result.id);
+                                if(nu !== undefined) {
+                                    const p = nu.hasPermission("MANAGE_GUILD");
+                                    if(p == true) {
+                                        if(req.params.statType === "role_size") {
+                                            var rolesize = []
+                                            g.roles.forEach(r => {
+                                                var role = { "name": `${r.name}`, "size": `${r.members.size}`, "color": `#${r.color}` }
+                                                rolesize.push(role)
+                                            });     
+                                            res.send(rolesize)   
+                                        }                                
+                                    }
+                                    else {
+                                        res.render('errors/403', { title: 'Dashboard • No permission' })
+                                    }
+                                }
+                                else {
+                                    res.render('errors/404-user', { title: 'Dashboard • User not found' })
+                                }
+                            }
+                            else {
+                                res.render('errors/404-server', { title: 'Dashboard • Server not found' })
+                            }
+                        });
+                }
+                else {
+                    res.render('errors/400', { title: 'Dashboard • Invalid Token' })
+                }
+    });
+    }
+    else {
+        res.status(403).json({
+            message: 'Missing authorization'
+        });
+    }
+});
+
+app.get('/options/:guildId/prefix/:prefix', async (req, res) => {
+    res.set({ 'Access-Control-Allow-Origin': 'https://bot.ender.site', 'Access-Control-Allow-Headers': 'authorization' })
+    var auth = req.get('Authorization')
+    if(auth) {
+        fetch('https://discordapp.com/api/users/@me', {
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth}` },
+        }).then(async i => {
+            var data = await i.text()
+            var json = JSON.parse(data)
+                if(json.id) {
+                        client.users.fetch(json.id)
+                        .catch(err => { if(err == 'DiscordAPIError: Unknown User') { 
+                            var obj = { error: `Unknown User` }; 
+                            var json = JSON.stringify(obj); 
+                            res.send(json)  } else { var obj = { error: `${err}` }; 
+                            var json = JSON.stringify(obj); 
+                            res.send(json) } })
+                        .then(async result => { 
+                            const g = client.guilds.get(req.params.guildId);
+                            if(g) {
+                                const nu = g.members.get(result.id);
+                                if(nu !== undefined) {
+                                    const p = nu.hasPermission("MANAGE_GUILD");
+                                    if(p == true) {
+                                            var prefix = db.set(`prefix-${g.id}`, req.params.prefix);
+                                            const channel = getDefaultChannel(g);
+                                            const embed = new Discord.MessageEmbed()
+                                                .setTitle("✏ Prefix was updated on the Dashboard")
+                                                .setDescription(`Prefix is now \`${prefix}\` in \`${g.name}\``)
+                                                .setFooter(`Changed by ${nu.user.username}`, nu.user.displayAvatarURL())
+                                                .setColor("#3498db")
+                                            channel.send(embed)
+                                            res.json({ prefix: `${prefix}` })
+                                    }
+                                    else {
+                                        res.render('errors/403', { title: 'Dashboard • No permission' })
+                                    }
+                                }
+                                else {
+                                    res.render('errors/404-user', { title: 'Dashboard • User not found' })
+                                }
+                            }
+                            else {
+                                res.render('errors/404-server', { title: 'Dashboard • Server not found' })
+                            }
+                        });
+                }
+                else {
+                    res.render('errors/400', { title: 'Dashboard • Invalid Token' })
+                }
+    });
+    }
+    else {
+        res.status(403).json({
+            message: 'Missing authorization'
+        });
+    }
+});
+
+app.options('/members/:guildId/:limit', async (req, res) => {
+    res.set({ 'Access-Control-Allow-Origin': 'https://bot.ender.site', 'Access-Control-Allow-Headers': 'authorization' })
+    return res.status(200).json({});
+})
+
+app.options('/roles/:guildId/:limit', async (req, res) => {
+    res.set({ 'Access-Control-Allow-Origin': 'https://bot.ender.site', 'Access-Control-Allow-Headers': 'authorization' })
+    return res.status(200).json({});
+})
+
+app.options('/statistics/:guildId/:statType', async (req, res) => {
+    res.set({ 'Access-Control-Allow-Origin': 'https://bot.ender.site', 'Access-Control-Allow-Headers': 'authorization' })
+    return res.status(200).json({});
+})
+
+app.options('/options/:guildId/prefix/:prefix', async (req, res) => {
+    res.set({ 'Access-Control-Allow-Origin': 'https://bot.ender.site', 'Access-Control-Allow-Headers': 'authorization' })
+    return res.status(200).json({});
+})
+
+app.get('/uptime', async (req, res) => {
+    res.set({ 'Access-Control-Allow-Origin': 'https://bot.ender.site', 'Access-Control-Allow-Headers': 'authorization' })
+    return res.status(200).json({});
+})
+
+app.get('/bot-uptime', async (req, res) => {
+    res.set({ 'Access-Control-Allow-Origin': 'https://bot.ender.site', 'Access-Control-Allow-Headers': 'authorization' })
+    return res.status(200).json({});
+})
 
     app.listen(port, () => {
         process.title = `API`

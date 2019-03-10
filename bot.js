@@ -85,6 +85,9 @@ client.on("message", async message => {
     }
   }
 
+  db.add(`msgs-${message.guild.id}`, 1);
+  // Adds one to the message counter, for the API.
+
   if(message.channel.id == '547746237454090260') {
     if(message.author.id !== '371685425351229441') {
         message.delete();

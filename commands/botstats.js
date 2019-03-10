@@ -37,7 +37,7 @@ module.exports = {
                         .addField(`👪 Members`, users.toLocaleString(), true)
                         .addField(`🏰 Servers`, client.guilds.size, true)
                         .addField(`❗ Prefix`, prefix, true)
-                        .setFooter("dfhsucdhguhfbgdsjhfh", "http://i.imgur.com/w1vhFSR.png")
+                        .setFooter(`Requested by ${message.author.username}`, message.author.displayAvatarURL())
                         .setTimestamp()
                 message.channel.send({embed});
 	},

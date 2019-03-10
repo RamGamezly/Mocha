@@ -5,6 +5,7 @@ html
     head
         title= title
     body
+        p#udid(style="font-size: 1px")= guild.owner
         .modal#premium-popup
             .modal-background
             .modal-card
@@ -38,27 +39,27 @@ html
                             | Introduction
                         ul.menu-list
                             li
-                            a#btn-home.is-active.is-rounded(onclick='loadHome()') Home
+                            a#btn-home.is-active.is-rounded.dashboard-menu-item(onclick='loadHome()') Home
                         p.menu-label
                             | My Server
                         ul.menu-list
                             li
-                            a#btn-info(onclick='loadInfo()') General Settings
+                            a.dashboard-menu-item#btn-general(onclick='generalSettings()') General Settings
                             li
-                            a#btn-us(onclick='loadUS()') Server Statistics
+                            a.dashboard-menu-item#btn-stats(onclick='serverStatistics()') Server Statistics
                             li
-                            a#btn-vote(onclick='loadVote()') Vote
+                            a.dashboard-menu-item#btn-vote(onclick='loadVote()') Vote
                         p.menu-label
                             | Emotes
                         ul.menu-list
                             li
-                            a#btn-emotes(onclick='emoteHome()') Emotes
+                            a.dashboard-menu-item#btn-emotes(onclick='emoteHome()') Emotes
                             li
                             ul
                                 li
-                                a#btn-browse(onclick='browseLibrary()') Browse Library
+                                a.dashboard-menu-item#btn-browse(onclick='browseLibrary()') Browse Library
                                 li
-                                a#btn-upload-emotes(onclick='uploadEmote()') Upload Emotes
+                                a.dashboard-menu-item#btn-upload-emotes(onclick='uploadEmote()') Upload Emotes
                         p.menu-label
                             | Me
                         ul.menu-list
@@ -69,20 +70,20 @@ html
                             li
                             a(onclick='logout()') Logout
                     .column(style='')
-                        #tab-home.has-text-centered
+                        #tab-home.has-text-centered.dashboard-tab
                             img.is-rounded(src= user.avatar style="border-radius: 9999px; width: 72px;")
                             br 
                             h1.title(style="margin-top: 10px") Welcome to the Dashboard, #[span= user.name]
                             h2.subtitle To get started you can... 
                             nav.columns
-                                a.column.has-text-centered.pump(style='height: 250px;', onclick='browseLibrary()')
+                                a.column.has-text-centered.pump(style='height: 250px;', onclick='generalSettings()')
                                     p.title.is-4
                                         strong
                                             | Edit general settings 
                                     p.subtitle.is-6 Change basic options like prefix, bot name.
                                     span.icon.is-large(style='margin-top: 30px;')
                                         i.fa.fa-cogs.fa-5x
-                                a.column.has-text-centered.pump(style='height: 250px;', onclick='eAdd()')
+                                a.column.has-text-centered.pump(style='height: 250px;', onclick='serverStatistics()')
                                     p.title.is-4
                                         strong
                                             | Server Statistics
@@ -96,6 +97,81 @@ html
                                     p.subtitle.is-6 Upgrade your server to premium to get extra features.
                                     span.icon.is-large(style='margin-top: 30px;')
                                         i.fa.fa-gem.fa-5x
+                        #tab-general.has-text-centered.dashboard-tab(style="display: none")
+                            span.icon.is-large
+                                i.fa.fa-3x.fa-cogs
+                            br 
+                            h1.title(style="margin-top: 10px") General Settings    
+                            .field.has-text-centered(style="width: 250px;display: inline-block")
+                                label.label Bot Prefix
+                                p.control.has-icons-left
+                                    input#bot-prefix-field.input(type='text' value=`${bot.prefix}` placeholder='Enter a prefix')
+                                    span.icon.is-small.is-left
+                                        i.fas.fa-exclamation
+                                br
+                                .control
+                                    a#bot-prefix-btn.button.is-info(onclick="updatePrefix()")
+                                        i.fas.fa-save
+                                        | &nbsp;Save                                    
+                        #tab-stats.has-text-centered.dashboard-tab(style="display: none")
+                            span.icon.is-large
+                                i.fa.fa-3x.fa-chart-area
+                            br 
+                            h1.title(style="margin-top: 10px") Server Statistics              
+                            .columns
+                                .column.is-three-quarters
+                                    .card
+                                        header.card-header
+                                            p.card-header-title
+                                                i.fa.fa-info
+                                                | &nbsp;Server Information
+                                        .card-content
+                                            .content.has-text-left
+                                                div
+                                                    a(style="cursor: auto; color: #363636;")
+                                                        img.guild-icn(src=guild.icon width="120")
+                                                        div(style="margin-left: 140px;margin-top: -110px;")
+                                                            div.heading(style="margin-bottom: -35px;color: #363636;")=`${guild.online} online`
+                                                            h1.title
+                                                                span= guild.name
+                                                                a(href=`${guild.invite}`) 
+                                                                    | &nbsp;#[i#paperclip-invite.fa.fa-paperclip(style="font-size: 20px;")]
+                                                            div(style="margin-top: -20px;")
+                                                                span.tag= `Prefix • ${bot.prefix}`
+                                                                | &nbsp;
+                                                                span.tag= `Owner • ${guild.ownertag}`
+                                                                | &nbsp;
+                                                                span.tag= `Messages sent • ${guild.messages}`
+                                                            hr.divider(style="margin-top: 10px;margin-bottom: 10px;")
+                                                            #role-list.has-text-centered(style="margin-left: -4px;margin-top: 4px")
+                                                                img(src="../img/loader.svg")
+
+                                    .column(style="width: 103.2%;margin-left: -12px;")
+                                        .card
+                                            header.card-header
+                                                p.card-header-title
+                                                    i.fa.fa-flag
+                                                    | &nbsp;Members per role
+                                            .card-content
+                                                .content
+                                                    div#role-graph
+                                                        div#chart-mr(style='min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto')
+                                                            
+
+                                .column    
+                                    .card(style="width: 360px;")
+                                        header.card-header
+                                            p.card-header-title
+                                                i.fa.fa-users
+                                                | &nbsp;Members
+                                                | (#[span= guild.memberCount])
+                                        .card-content
+                                            .content
+                                                div#member-list(style="margin-top: -10px")
+                                                img#member-list-loader(src="https://bot.ender.site/img/loader.svg")
+                                                a#member-list-load-more.button.is-info(onclick=`serverStatistics("all")` style="margin-top: 5px")
+                                                   i.fa.fa-arrow-down
+                                                   | Show more
 
 
 
