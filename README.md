@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://bot.ender.site/img/enderbot.png" width="30"> 
+  <img src="https://bot.ender.site/img/enderbot.png" width="100"> 
 </p>
 
 # Ender Bot
