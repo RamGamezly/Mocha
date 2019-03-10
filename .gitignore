@@ -10,3 +10,4 @@ api.bat
 authorization.json
 dependencies.bat
 config.json
+node_modules
