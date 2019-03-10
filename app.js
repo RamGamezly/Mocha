@@ -418,7 +418,7 @@ app.post('/members/:guildId/:limit', limiter, async (req, res) => {
                                             var limit = g.memberCount
                                         }
                                         fetch(`https://discordapp.com/api/guilds/${g.id}/members?limit=${limit}`, {
-                                            headers: { 'Content-Type': 'application/json', 'Authorization': `Bot MzcxNjg1NDI1MzUxMjI5NDQx.DpX5GA.NWVProSschY7TYXDzl6xDqLLQI8` },
+                                            headers: { 'Content-Type': 'application/json', 'Authorization': `Bot ${config.token}` },
                                         }).then(async i => {
                                             var data = await i.text()
                                             var json = JSON.parse(data)
