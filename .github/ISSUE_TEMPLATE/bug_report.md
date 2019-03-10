@@ -2,7 +2,7 @@
 name: Bug report
 about: Found a bug? Report it here.
 title: "[BUG] "
-labels: ''
+labels: bug
 assignees: EnderDev
 
 ---
