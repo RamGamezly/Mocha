@@ -5,6 +5,7 @@ oldcommands
 build
 api
 _
+views
 start.bat
 api.bat
 authorization.json
