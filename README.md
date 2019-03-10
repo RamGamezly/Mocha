@@ -2,5 +2,7 @@
 <p align="center">
   <img src="https://bot.ender.site/img/enderbot.png" width="100"> 
 </p>
-<h1 class="title" align="center">Ender Bot<br>A bot for the new age, with profiles, casino, weather and memes. </h1>
+<h1 class="title" align="center">Ender</h1>
+<h2 class="subtitle">A bot for the new age, with profiles, casino, weather and memes.</h2>
+
 
