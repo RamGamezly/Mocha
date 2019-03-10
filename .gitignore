@@ -9,3 +9,4 @@ views
 start.bat
 api.bat
 authorization.json
+dependencies.bat
