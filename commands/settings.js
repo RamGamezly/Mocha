@@ -8,11 +8,11 @@ module.exports = {
 	description: 'Server settings',
 	async execute(message, args) {
         const argu = message.content.split(' ');
-        if(argu[1] == 'help') {
+        if(argu[1] === 'help') {
             const embed = new Discord.MessageEmbed()
                 .setTitle(`⚙ Server Settings`)
                 .setDescription("Modify settings for this server.")
-                .addField("❗ Prefix", "You can edit the prefix for all commands by typing `settings prefix <value>`.")
+                .addField("❗ Prefix", "You can edit the prefix for all commands by typing `settings prefix <value>`, to add spaces use `__` as a space.")
                 .addField("🕒 Antispam", "You can toggle antispam by typing `settings antispam`")
                 .addField("👋 Welcome Message", "You can edit the welcome message by typing `settings joinmsg`")
                 .addField("#⃣ Welcome Channel", "You can edit the join message channel by typing `settings joinchannel <channel>`")
@@ -55,24 +55,13 @@ module.exports = {
         if(argu[1] == 'prefix') {
             if(argu[2]) {
                 var prefix = argu[2];
-                prefix = prefix.replace(/"/g, "")
-                var lastChar = prefix[prefix.length -1];
-                if(lastChar === " ") {
-                    db.set(`prefix-${message.guild.id}`, `${prefix} `)
-                    message.guild.me.setNickname(`Ender [${prefix} ]`)
-                    let wEmbed = new Discord.MessageEmbed()
-                        .setTitle(`👍 Prefix is now set to \`${prefix} \``)
-                        .setColor("#f1c40f");
-                    message.channel.send(wEmbed);  
-                }
-                else {
-                    db.set(`prefix-${message.guild.id}`, prefix)
-                    message.guild.me.setNickname(`Ender [${prefix}]`)
-                    let wEmbed = new Discord.MessageEmbed()
-                        .setTitle(`👍 Prefix is now set to \`${prefix}\``)
-                        .setColor("#f1c40f");
-                    message.channel.send(wEmbed);                     
-                }  
+                var newprefix = prefix.replace(/__/g, " ");
+                db.set(`prefix-${message.guild.id}`, `${newprefix}`)
+                message.guild.me.setNickname(`Ender [${newprefix}]`)
+                let wEmbed = new Discord.MessageEmbed()
+                    .setTitle(`👍 Prefix is now set to \`${newprefix}\``)
+                    .setColor("#f1c40f");
+                message.channel.send(wEmbed);                     
             }
             if(!argu[2]) {
                 let weEmbed = new Discord.MessageEmbed()
