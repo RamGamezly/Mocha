@@ -53,12 +53,12 @@ module.exports = {
         }
         if(args[0] == 'prefix') {
             if(args[1]) {
-                var prefix = args[1];
-                var newprefix = prefix.replace(/\"/g, "");
-                db.set(`prefix-${message.guild.id}`, newprefix)
-                message.guild.me.setNickname(`Ender [${newprefix}]`)
+                let args = message.content.split(" ").splice(2).join(" "); 
+                let in_quotes = args.replace(/"/g, "");
+                db.set(`prefix-${message.guild.id}`, in_quotes)
+                message.guild.me.setNickname(`Ender [${in_quotes}]`)
                 let wEmbed = new Discord.MessageEmbed()
-                    .setTitle(`👍 Prefix is now set to \`${newprefix}\``)
+                    .setTitle(`👍 Prefix is now set to \`${in_quotes}\``)
                     .setColor("#f1c40f");
                 message.channel.send(wEmbed);                     
             }
