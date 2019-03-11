@@ -84,6 +84,17 @@ client.on("message", async message => {
       var deviceParams = {}
       pusher.note(deviceParams, 'Ender', `You were pinged by ${message.author.tag} in ${message.guild.name}`, function(error, response) {});    
     }
+    if(message.mentions.users.first().id == '371685425351229441') {
+        let fetched = await db.fetch(`prefix-${message.guild.id}`);
+        if (fetched === null) prefix = '!';
+        else prefix = fetched;
+        const embed = new Discord.MessageEmbed()
+          .setTitle("👋 Hi! I'm Ender!")
+          .setDescription("I'm **Ender**, the only bot you'll ever need.")
+          .addField("❗ Prefix", prefix)
+          .setFooter(`Requested by ${message.author.username}`, message.author.displayAvatarURL())
+        message.channel.send(embed)
+    }
   }
 
   db.add(`msgs-${message.guild.id}`, 1);
