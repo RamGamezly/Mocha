@@ -55,12 +55,24 @@ module.exports = {
         if(argu[1] == 'prefix') {
             if(argu[2]) {
                 var prefix = argu[2];
-                db.set(`prefix-${message.guild.id}`, prefix)
+                prefix = prefix.replace(/"/g, "")
+                var lastChar = prefix[prefix.length -1];
+                if(lastChar === " ") {
+                    db.set(`prefix-${message.guild.id}`, `${prefix} `)
+                    message.guild.me.setNickname(`Ender [${prefix} ]`)
+                    let wEmbed = new Discord.MessageEmbed()
+                        .setTitle(`👍 Prefix is now set to \`${prefix} \``)
+                        .setColor("#f1c40f");
+                    message.channel.send(wEmbed);  
+                }
+                else {
+                    db.set(`prefix-${message.guild.id}`, prefix)
                     message.guild.me.setNickname(`Ender [${prefix}]`)
                     let wEmbed = new Discord.MessageEmbed()
                         .setTitle(`👍 Prefix is now set to \`${prefix}\``)
                         .setColor("#f1c40f");
-                    message.channel.send(wEmbed);   
+                    message.channel.send(wEmbed);                     
+                }  
             }
             if(!argu[2]) {
                 let weEmbed = new Discord.MessageEmbed()
