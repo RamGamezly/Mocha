@@ -90,9 +90,8 @@ client.on("message", async message => {
         else prefix = fetched;
         const embed = new Discord.MessageEmbed()
           .setTitle("👋 Hi! I'm Ender!")
-          .setDescription(`I'm **Ender**, the only bot you'll ever need. In \`${message.guild.name}\`, the prefix is \`${prefix}\`.`)
+          .setDescription(`In \`${message.guild.name}\`, the prefix is \`${prefix}\`.`)
           .setColor("#3498db")
-          .setFooter(`Requested by ${message.author.username}`, message.author.displayAvatarURL())
         message.channel.send(embed)
     }
   }
