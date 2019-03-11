@@ -6,9 +6,8 @@ const db = require('quick.db');
 module.exports = {
 	name: 'settings',
 	description: 'Server settings',
-	async execute(message, args) {
-        const argu = message.content.split(' ');
-        if(argu[1] === 'help') {
+	async execute(message, client, args) {
+        if(args[0] === 'help') {
             const embed = new Discord.MessageEmbed()
                 .setTitle(`⚙ Server Settings`)
                 .setDescription("Modify settings for this server.")
@@ -20,7 +19,7 @@ module.exports = {
                 .setFooter(`Requested by ${message.author.username}`, message.author.displayAvatarURL())
             return message.channel.send(embed)   
         }
-        if(!argu[1]) {
+        if(!args[0]) {
             let wc = await db.fetch(`welcomechannel-${message.guild.id}`);
             let wmsg = await db.fetch(`welcomemessage-${message.guild.id}`);
             let prefix = await db.fetch(`prefix-${message.guild.id}`);
@@ -52,18 +51,18 @@ module.exports = {
                 return message.channel.send(wEmbed);           
             }              
         }
-        if(argu[1] == 'prefix') {
-            if(argu[2]) {
-                var prefix = argu[2];
-                var newprefix = prefix.replace(/__/g, " ");
-                db.set(`prefix-${message.guild.id}`, `${newprefix}`)
+        if(args[0] == 'prefix') {
+            if(args[1]) {
+                var prefix = args[1];
+                var newprefix = prefix.replace(/"/g, "");
+                db.set(`prefix-${message.guild.id}`, newprefix)
                 message.guild.me.setNickname(`Ender [${newprefix}]`)
                 let wEmbed = new Discord.MessageEmbed()
                     .setTitle(`👍 Prefix is now set to \`${newprefix}\``)
                     .setColor("#f1c40f");
                 message.channel.send(wEmbed);                     
             }
-            if(!argu[2]) {
+            if(!args[1]) {
                 let weEmbed = new Discord.MessageEmbed()
                     .setTitle(`❌ Missing argument!`)
                     .setDescription("You must specify something you want to change this server's prefix to.")
@@ -72,7 +71,7 @@ module.exports = {
                 message.channel.send(weEmbed);                 
             }
         }
-        if(argu[1] == 'antispam') {
+        if(args[0] == 'antispam') {
             let spamfilter = await db.fetch(`spamfilter-${message.guild.id}`);
             if(spamfilter == false) {
                 var value = true;
@@ -99,8 +98,8 @@ module.exports = {
                     return message.channel.send(wEmbed);  
             }
         }
-        if(argu[1] == 'joinmsg') {
-            if(!argu[2]) {
+        if(args[0] == 'joinmsg') {
+            if(!args[1]) {
             const embed = new Discord.MessageEmbed()
                 .setTitle("👋 Join Message")
                 .setDescription("You can specify your join message by typing `settings joinmsg <message>`. You can also use all them variables below in your message.")
@@ -115,9 +114,9 @@ module.exports = {
                 .setFooter(`Requested by ${message.author.username}`, message.author.displayAvatarURL())
             const embed1 = await message.channel.send(embed);  
             }          
-        if(argu[2]) {
+        if(args[1]) {
             var pprefix = db.fetch(`prefix-${message.guild.id}`)
-            var fargs = argu.splice(2);
+            var fargs = args.splice(2);
             var fargsss = fargs.join(" ");
             var fargss = `${fargsss}`
             var fwmsg = fargss.replace(/{{user}}/g, message.author.username)
@@ -135,12 +134,12 @@ module.exports = {
             message.channel.send(wEmbed);             
         }
     }
-    if(argu[1] == 'joinchannel') {
-        if(argu[2]) {
+    if(args[0] == 'joinchannel') {
+        if(args[1]) {
             var regex = /<#([0-9]+)>/g;
-            var result = argu[2].match(regex);
+            var result = args[1].match(regex);
             if(result) {
-                var a = argu[2].replace("<#", "")
+                var a = args[1].replace("<#", "")
                 var b = a.replace(">", "")
                 db.set(`welcomechannel-${message.guild.id}`, b)
                 let wEmbed = new Discord.MessageEmbed()
