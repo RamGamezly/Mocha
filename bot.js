@@ -137,21 +137,16 @@ client.on("message", async message => {
         talkedRecently.delete(message.author.id);
       }, 3500);
       cmd.execute(message, client, args).catch(err => {
-        var snowflake = parseInt(message.author.id) + Math.round(+new Date()*1000)
-        var error = err.msg.split(": ");
+        var snowflake = parseInt(message.author.id) + Math.round(+new Date()*1000);
+        var error_msgs = ['Ender did an oopsie!', 'Error successful!', 'Something bad happened', 'You really screwed up this time.', 'Big oopsie happened', 'Not my fault.'];
+        let emsg = error_msgs[Math.floor((Math.random() * error_msgs.length))];
         const embed = new Discord.MessageEmbed()
-          .setTitle(`❌ Error! \`${error}\``)
+          .setTitle(`❌ ${emsg}`)
           .setColor("#e74c3c")
-          .setDescription(`For support, reference this code to the developer \`${snowflake}\``)
+          .setDescription(`A error occoured while trying to perform this command.\n\`\`\`${err}\`\`\`\nFor support, reference this code to the developer \`${snowflake}\``)
         message.channel.send(embed); 
         const row = error_code.prepare(`INSERT INTO error (ErrorCode, ErrorMsg, UserID, GuildID, Command) VALUES (?, ?, ?, ?, ?)`);
-        const final = row.run(`${snowflake}`, `${err}`, `${message.author.id}`, `${message.guild.id}`, `${message.content}`);
-        const errEmbed = new Discord.MessageEmbed()
-          .setTitle("❌ Error!")
-          .setColor("#e74c3c")
-          .setDescription(`An error occoured while \`${message.author.username}#${message.author.discriminator}\` tried to run \`${cmd.name}\` in \`${message.guild.name}\`.\`\`\`vbs\n[1] ${err}\`\`\``)
-          client.channels.get("547746237454090260").send(`<@!217562587938816000>`)    
-          client.channels.get("547746237454090260").send(errEmbed)               
+        const final = row.run(`${snowflake}`, `${err}`, `${message.author.id}`, `${message.guild.id}`, `${message.content}`);          
     });
     }
     else {
