@@ -7,6 +7,8 @@ const db = require('quick.db');
 var PushBullet = require('pushbullet');
 const config = require("./authorization.json");
 var pusher = new PushBullet(config.pushbullet);
+const Database = require('better-sqlite3');
+const error_code = new Database('error_codes.db', { verbose: console.log });
 
 const Ksoft = require('ksoft.js');
 const ksoft = new Ksoft(config.ksoft);
@@ -136,11 +138,14 @@ client.on("message", async message => {
       }, 3500);
       cmd.execute(message, client, args).catch(err => {
         console.log(err);
+        var snowflake = message.author.id + Math.round(+new Date()/1000);
         const embed = new Discord.MessageEmbed()
           .setTitle("❌ Error!")
           .setColor("#e74c3c")
-          .setDescription(`This error has been logged and will be reviewed by the developers.\`\`\`vbs\n[1] ${err}\`\`\``)
+          .setDescription(`For support, reference this code to the developer \`${snowflake}\``)
         message.channel.send(embed); 
+        const row = error_code.prepare(`INSERT INTO error (ErrorCode, ErrorMsg, UserID, GuildID, Command) VALUES ('${snowflake}', '${err}', '${message.author.id}', '${message.guild.id}', '${message.content}')`)
+
         const errEmbed = new Discord.MessageEmbed()
           .setTitle("❌ Error!")
           .setColor("#e74c3c")
