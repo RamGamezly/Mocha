@@ -2,7 +2,8 @@ const Discord = require('discord.js');
 const { client, Util } = require('discord.js');
 const fetch = require('node-fetch');
 const moment = require('moment');
-const apikey = '8d9dee44-1281-4f59-85f2-14898979674e'
+const config = require("../authorization.json");
+const apikey = config.hypixel
 
 function convert(unix){
 
