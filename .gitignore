@@ -12,4 +12,4 @@ dependencies.bat
 config.json
 node_modules
 test.txt
-error_codes.sqlite
+error_codes.db
