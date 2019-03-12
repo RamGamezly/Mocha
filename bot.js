@@ -137,16 +137,15 @@ client.on("message", async message => {
         talkedRecently.delete(message.author.id);
       }, 3500);
       cmd.execute(message, client, args).catch(err => {
-        console.log(err);
         var snowflake = parseInt(message.author.id) + Math.round(+new Date()*1000)
+        var error = err.split(": ");
         const embed = new Discord.MessageEmbed()
-          .setTitle(`❌ Error! ${err}`)
+          .setTitle(`❌ Error! \`${error}\``)
           .setColor("#e74c3c")
           .setDescription(`For support, reference this code to the developer \`${snowflake}\``)
         message.channel.send(embed); 
         const row = error_code.prepare(`INSERT INTO error (ErrorCode, ErrorMsg, UserID, GuildID, Command) VALUES (?, ?, ?, ?, ?)`);
         const final = row.run(`${snowflake}`, `${err}`, `${message.author.id}`, `${message.guild.id}`, `${message.content}`);
-        console.log(final)
         const errEmbed = new Discord.MessageEmbed()
           .setTitle("❌ Error!")
           .setColor("#e74c3c")
