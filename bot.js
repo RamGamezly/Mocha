@@ -138,7 +138,7 @@ client.on("message", async message => {
       }, 3500);
       cmd.execute(message, client, args).catch(err => {
         var snowflake = parseInt(message.author.id) + Math.round(+new Date()*1000)
-        var error = err.split(": ");
+        var error = err.msg.split(": ");
         const embed = new Discord.MessageEmbed()
           .setTitle(`❌ Error! \`${error}\``)
           .setColor("#e74c3c")
