@@ -92,6 +92,7 @@ app.get("/oauth/authorize/:token", async (req, res) => {
     }).catch(err => console.error(err));
 });
 
+
 app.get("/oauth/create/new/:id", async (req, res) => {
     res.set({ 'content-type': 'application/json' });
     var auth = req.get('Authorization')

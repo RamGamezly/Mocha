@@ -37,7 +37,7 @@ module.exports = {
                 return message.channel.send(embed)               
             }
             // Fetch 100 messages (will be filtered and lowered up to max amount requested)
-            message.channel.fetchMessages({
+            message.channel.messages.fetch({
              limit: amount,
             }).then((messages) => {
              if (user) {
