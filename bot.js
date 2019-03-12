@@ -144,8 +144,9 @@ client.on("message", async message => {
           .setColor("#e74c3c")
           .setDescription(`For support, reference this code to the developer \`${snowflake}\``)
         message.channel.send(embed); 
-        const row = error_code.run(`INSERT INTO error (ErrorCode, ErrorMsg, UserID, GuildID, Command) VALUES ('${snowflake}', '${err}', '${message.author.id}', '${message.guild.id}', '${message.content}')`)
-        console.log(row)
+        const row = error_code.prepare(`INSERT INTO error (ErrorCode, ErrorMsg, UserID, GuildID, Command) VALUES`);
+        const final = row.run(`${snowflake}`, `${err}`, `${message.author.id}`, `${message.guild.id}`, `${message.content}`);
+        console.log(final)
         const errEmbed = new Discord.MessageEmbed()
           .setTitle("❌ Error!")
           .setColor("#e74c3c")
