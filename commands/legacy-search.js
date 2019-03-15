@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 const { client, Util } = require('discord.js');
 const YouTube = require('simple-youtube-api');
-const youtube = new YouTube('AIzaSyBHsqdn_YMOCMFnu7nj8xCYFGT0c7eEV2c');
+const youtube = new YouTube('AIzaSyBHsqdn_YMOCMFnu7nj8xCYFGT0c7eEV2c'); // This token is now very past invalid.
 const ytdl = require('ytdl-core');
 const numWords = require('num-words');
 const db = require('quick.db');
