@@ -121,6 +121,9 @@ client.on("message", async message => {
   const command = args.shift().toLowerCase();
   
   const cmd  = client.commands.get(command)
+
+
+
   if(cmd) {
     let spamfilter = await db.fetch(`spamfilter-${message.guild.id}`);
     if(spamfilter == true) {

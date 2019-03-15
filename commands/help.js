@@ -20,7 +20,7 @@ module.exports = {
         let embed = new Discord.MessageEmbed()
             .setTitle(`✨ Hi! I'm Ender!`)
             .setDescription(`I'm **Ender**, the only bot you'll ever need.\n\nThe prefix for all commands here is \`${prefix}\`.`)
-            .addField("📘 General", "`bot, ping, help, settings`")
+            .addField("📘 General", "`bot, ping, help, settings, p`")
             .addField("👢 Moderation", "`purge, ban, kick, mute`")
             .addField("🎉 Fun", "`8ball, cat, scratchcard, slots, hypixel`")
             .addField("💸 Economy", "`bank, bank bal, bank work, bank resign, bank crime, bank withdraw, bank deposit, bank hack`")

@@ -18,6 +18,7 @@
     "long": "^4.0.0",
     "moment": "^2.24.0",
     "ms": "^2.1.1",
+    "node-opus": "^0.3.1",
     "node-vibrant": "^3.2.0-alpha",
     "nodemon": "^1.18.10",
     "num-words": "^1.0.1",
