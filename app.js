@@ -2,7 +2,7 @@ const express = require('express');
 const Discord = require('discord.js');
 var fs = require('fs')
 var https = require('https')
-var app = express()
+var app = express();
 const port = 3000
 const db = require('quick.db');
 const fetch = require('node-fetch');
@@ -13,7 +13,9 @@ var Vibrant = require('node-vibrant')
 var Long = require("long");
 const rateLimit = require("express-rate-limit");
 const config = require("./authorization.json");
+var morgan = require('morgan')
 
+app.use(morgan('short'))
 
 const limiter = rateLimit({
     windowMs: 3000,
@@ -47,7 +49,6 @@ const getDefaultChannel = (guild) => {
 }
 
 app.get('/', async (req, res) => {
-    console.log('GET Request to /')
     res.set({ 'content-type': 'application/json' });
     res.set({ 'teapot': 'true' });
     res.set({ 'teapot-': 'true' });
@@ -361,7 +362,7 @@ app.get('/dash/:guildId', async (req, res) => {
                                             //var inviteurl = ".";
                                             channel.createInvite()
                                                 .then(invite => { var inviteurl = invite.toString()                                        
-                                        res.render('index', { guild: { name: `${g.name}`, icon: `${gic}?size=1024`, vibrant: `rgb(${palette.Vibrant._rgb[0]}, ${palette.Vibrant._rgb[1]}, ${palette.Vibrant._rgb[2]})`, memberCount: `${g.memberCount}`, owner: `${g.ownerID}`, online: `${online}`, invite: `${inviteurl}`, ownertag: `${g.owner.user.username}#${g.owner.user.discriminator}`, messages: `${msgs}` }, title: `Dashboard • ${g.name}`, user: { name: `${nu.user.username}`, avatar: `https://cdn.discordapp.com/avatars/${nu.user.id}/${nu.user.avatar}.png?size=1024` }, bot: { prefix: `${prefix}` } })
+                                        res.render('index', { guild: { name: `${g.name}`, icon: `${gic}?size=1024`, vibrant: `rgb(${palette.Vibrant._rgb[0]}, ${palette.Vibrant._rgb[1]}, ${palette.Vibrant._rgb[2]})`, memberCount: `${g.memberCount}`, owner: `${g.ownerID}`, online: `${online}`, invite: `${inviteurl}`, ownertag: `${g.owner.user.username}#${g.owner.user.discriminator}`, messages: `${msgs.toLocaleString()}` }, title: `Dashboard • ${g.name}`, user: { name: `${nu.user.username}`, avatar: `https://cdn.discordapp.com/avatars/${nu.user.id}/${nu.user.avatar}.png?size=1024` }, bot: { prefix: `${prefix}` } })
                                     }  )  }) }
                                     else {
                                         res.render('errors/403', { title: 'Dashboard • No permission' })
@@ -658,4 +659,8 @@ app.get('/bot-uptime', async (req, res) => {
         process.title = `API`
         console.log(`App listening on port ${port}!`)
     })
+
+app.enable('trust proxy')
+
+
   
