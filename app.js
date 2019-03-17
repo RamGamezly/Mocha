@@ -402,7 +402,6 @@ app.get('/dash/:guildId', async (req, res) => {
                                         Vibrant.from(gic).getPalette()
                                             .then((palette) => {
                                             let prefix = db.fetch(`prefix-${g.id}`)
-                                            let msgs = db.fetch(`msgs-${g.id}`)
                                             var online = 0
                                             g.members.forEach(m => {
                                                 if(m.presence.status === "online") {
@@ -427,7 +426,7 @@ app.get('/dash/:guildId', async (req, res) => {
                                                 online: `${online}`, 
                                                 invite: `${inviteurl}`, 
                                                 ownertag: `${g.owner.user.username}#${g.owner.user.discriminator}`, 
-                                                messages: `${parseInt(msgs.toLocaleString())}` 
+                                                messages: `${msgs.toLocaleString()}` 
                                             }, 
                                             title: `Dashboard • ${g.name}`, 
                                             user: { 
@@ -501,6 +500,57 @@ app.post('/members/:guildId/:limit', limiter, async (req, res) => {
                                             var json = JSON.parse(data)
                                             res.send(json);
                                         });
+                                    }
+                                    else {
+                                        res.render('errors/403', { title: 'Dashboard • No permission' })
+                                    }
+                                }
+                                else {
+                                    res.render('errors/404-user', { title: 'Dashboard • User not found' })
+                                }
+                            }
+                            else {
+                                res.render('errors/404-server', { title: 'Dashboard • Server not found' })
+                            }
+                        });
+                }
+                else {
+                    res.render('errors/400', { title: 'Dashboard • Invalid Token' })
+                }
+    });
+    }
+    else {
+        res.status(403).json({
+            message: 'Missing authorization'
+        });
+    }
+});
+
+app.post('/channels/:guildId', limiter, async (req, res) => {
+    res.set({ 'Access-Control-Allow-Origin': 'https://bot.ender.site', 'Access-Control-Allow-Headers': 'authorization' })
+    var auth = req.get('Authorization')
+    if(auth) {
+        fetch('https://discordapp.com/api/users/@me', {
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth}` },
+        }).then(async i => {
+            var data = await i.text()
+            var json = JSON.parse(data)
+                if(json.id) {
+                        client.users.fetch(json.id)
+                        .catch(err => { if(err == 'DiscordAPIError: Unknown User') { 
+                            var obj = { error: `Unknown User` }; 
+                            var json = JSON.stringify(obj); 
+                            res.send(json)  } else { var obj = { error: `${err}` }; 
+                            var json = JSON.stringify(obj); 
+                            res.send(json) } })
+                        .then(async result => { 
+                            const g = client.guilds.get(req.params.guildId);
+                            if(g) {
+                                const nu = g.members.get(result.id);
+                                if(nu !== undefined) {
+                                    const p = nu.hasPermission("MANAGE_GUILD");
+                                    if(p == true) {
+                                        res.send(g.channels)
                                     }
                                     else {
                                         res.render('errors/403', { title: 'Dashboard • No permission' })
