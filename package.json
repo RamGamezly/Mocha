@@ -28,6 +28,7 @@
     "pushbullet": "^2.4.0",
     "quick.db": "^7.0.0-b21",
     "quick.log": "^1.2.1",
+    "require-dir": "^1.2.0",
     "rgb-hex": "^2.1.0",
     "simple-youtube-api": "^5.1.1",
     "socket.io": "^2.2.0",

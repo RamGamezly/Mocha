@@ -102,6 +102,16 @@ client.on("message", async message => {
     }
   }
 
+  let bw = db.fetch(`bannedwords-${message.guild.id}`)
+  if(bw) {
+    msg = message.content.toLocaleLowerCase();
+    if (bw.some(function(v) { return msg.indexOf(v) >= 0; })) {
+      message.delete().then(i => {
+        console.log(`deleted from ${message.author.tag}`)
+      })
+    }
+  }
+
   db.add(`msgs-${message.guild.id}`, 1);
   // Adds one to the message counter, for the API.
 

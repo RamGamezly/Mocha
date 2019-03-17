@@ -723,6 +723,7 @@ app.get('/options/:guildId/prefix/:prefix', async (req, res) => {
                                                 .setFooter(`Changed by ${nu.user.username}`, nu.user.displayAvatarURL())
                                                 .setColor("#3498db")
                                             channel.send(embed)
+                                            g.me.setNickname(`Ender [${prefix}]`)
                                             res.json({ prefix: `${prefix}` })
                                     }
                                     else {
@@ -751,6 +752,11 @@ app.get('/options/:guildId/prefix/:prefix', async (req, res) => {
 });
 
 app.options('/members/:guildId/:limit', async (req, res) => {
+    res.set({ 'Access-Control-Allow-Origin': 'https://bot.ender.site', 'Access-Control-Allow-Headers': 'authorization' })
+    return res.status(200).json({});
+})
+
+app.options('/channels/:guildId', async (req, res) => {
     res.set({ 'Access-Control-Allow-Origin': 'https://bot.ender.site', 'Access-Control-Allow-Headers': 'authorization' })
     return res.status(200).json({});
 })

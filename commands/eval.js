@@ -4,6 +4,7 @@ const ffmpeg = require('ffmpeg');
 const fs = require('fs');
 const Discord = require('discord.js');
 const ytapi = require('simple-youtube-api');
+const db = require("quick.db");
 
 function clean(text) {
     if (typeof(text) === "string")
