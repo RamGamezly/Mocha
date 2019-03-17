@@ -9,6 +9,8 @@ const config = require("./authorization.json");
 var pusher = new PushBullet(config.pushbullet);
 const Database = require('better-sqlite3');
 const error_code = new Database('error_codes.db', { verbose: console.log });
+var log = require('quick.log')
+
 
 const Ksoft = require('ksoft.js');
 const ksoft = new Ksoft(config.ksoft);

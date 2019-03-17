@@ -13,7 +13,9 @@ var Vibrant = require('node-vibrant')
 var Long = require("long");
 const rateLimit = require("express-rate-limit");
 const config = require("./authorization.json");
-var morgan = require('morgan')
+var morgan = require('morgan');
+
+
 
 app.use(morgan('short'))
 
@@ -28,6 +30,8 @@ client.login(config.token);
 process.on('uncaughtException', function (err) {
     fs.writeFileSync("test.txt",  err, "utf8");    
 })
+
+
 
 const getDefaultChannel = (guild) => {
     // get "original" default channel
@@ -408,8 +412,32 @@ app.get('/dash/:guildId', async (req, res) => {
                                             const channel = getDefaultChannel(g);
                                             //var inviteurl = ".";
                                             channel.createInvite()
-                                                .then(invite => { var inviteurl = invite.toString()                                        
-                                        res.render('index', { guild: { name: `${g.name}`, icon: `${gic}?size=1024`, vibrant: `rgb(${palette.Vibrant._rgb[0]}, ${palette.Vibrant._rgb[1]}, ${palette.Vibrant._rgb[2]})`, memberCount: `${g.memberCount}`, owner: `${g.ownerID}`, online: `${online}`, invite: `${inviteurl}`, ownertag: `${g.owner.user.username}#${g.owner.user.discriminator}`, messages: `${msgs.toLocaleString()}` }, title: `Dashboard • ${g.name}`, user: { name: `${nu.user.username}`, avatar: `https://cdn.discordapp.com/avatars/${nu.user.id}/${nu.user.avatar}.png?size=1024` }, bot: { prefix: `${prefix}` } })
+                                                .then(invite => { var inviteurl = invite.toString()    
+                                                    let msgs = db.fetch(`msgs-${g.id}`)   
+                                                    if(!msgs) {
+                                                        msgs = 0
+                                                    }                                 
+                                        res.render('index', { 
+                                            guild: { 
+                                                name: `${g.name}`, 
+                                                icon: `${gic}?size=1024`, 
+                                                vibrant: `rgb(${palette.Vibrant._rgb[0]}, ${palette.Vibrant._rgb[1]}, ${palette.Vibrant._rgb[2]})`, 
+                                                memberCount: `${g.memberCount}`, 
+                                                owner: `${g.ownerID}`, 
+                                                online: `${online}`, 
+                                                invite: `${inviteurl}`, 
+                                                ownertag: `${g.owner.user.username}#${g.owner.user.discriminator}`, 
+                                                messages: `${parseInt(msgs.toLocaleString())}` 
+                                            }, 
+                                            title: `Dashboard • ${g.name}`, 
+                                            user: { 
+                                                name: `${nu.user.username}`, 
+                                                avatar: `https://cdn.discordapp.com/avatars/${nu.user.id}/${nu.user.avatar}.png?size=1024` 
+                                            }, 
+                                            bot: { 
+                                                prefix: `${prefix}` 
+                                            } 
+                                        })
                                     }  )  }) }
                                     else {
                                         res.render('errors/403', { title: 'Dashboard • No permission' })
