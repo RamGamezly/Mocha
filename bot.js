@@ -103,12 +103,11 @@ client.on("message", async message => {
   }
 
   let bw = db.fetch(`bannedwords-${message.guild.id}`)
+  bw = bw.join(" ");
   if(bw) {
     msg = message.content.toLocaleLowerCase();
-    if (bw.some(function(v) { return msg.indexOf(v) >= 0; })) {
-      message.delete().then(i => {
-        console.log(`deleted from ${message.author.tag}`)
-      })
+    if(bw.indexOf(msg) >= 0) {
+      message.delete()
     }
   }
 
