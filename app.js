@@ -125,6 +125,8 @@ app.get("/oauth/create/new/:id", async (req, res) => {
     })
 });
 
+
+
 app.get('/user/:userId', async (req, res) => {
     res.set({ 'Access-Control-Allow-Origin': 'https://bot.ender.site' })
     res.set({ 'content-type': 'application/json' });
@@ -271,6 +273,51 @@ app.options('/selectGuild', async (req, res) => {
     res.set({ 'Access-Control-Allow-Origin': 'https://bot.ender.site', 'Access-Control-Allow-Headers': 'authorization' })
     return res.status(200).json({});
 })
+
+app.options('/promo/redeem/pdp', async (req, res) => {
+    res.set({ 'Access-Control-Allow-Origin': 'https://bot.ender.site', 'Access-Control-Allow-Headers': 'authorization' })
+    return res.status(200).json({});
+})
+
+app.post('/promo/redeem/pdp', async (req, res) => {
+    res.set({ 'Access-Control-Allow-Origin': 'https://bot.ender.site', 'Access-Control-Allow-Headers': 'authorization' })
+    var auth = req.get('Authorization')
+    if(auth) {
+        fetch('https://discordapp.com/api/users/@me', {
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth}` },
+        }).then(async i => {
+            var data = await i.text()
+            var json = JSON.parse(data)
+                if(json.id) {
+                        client.users.fetch(json.id)
+                        .catch(err => { if(err == 'DiscordAPIError: Unknown User') { 
+                            var obj = { error: `Unknown User` }; 
+                            var json = JSON.stringify(obj); 
+                            res.send(json)  } else { var obj = { error: `${err}` }; 
+                            var json = JSON.stringify(obj); 
+                            res.send(json) } })
+                        .then(async result => { 
+                            let pdp = db.fetch(`pdp-promo-${result.id}`);
+                            if(!pdp) {
+                                db.set(`pdp-promo-${result.id}`, true);
+                                console.log(`[PROMO] User ${result.id} redeemed pdp rewards.`)
+                                res.render('pdp')
+                                const embed = new Discord.MessageEmbed()
+                                    .setTitle("❤ Thanks for supporting PewDiePie")
+                                    .setDescription("You will now recieve $20,000 into your bank account. Thanks!")
+                                    .setColor("#e74c3c")
+                                result.send(embed)
+                                db.add(`bankbalance-${result.id}`, 20000);
+                            }
+                            else {
+                                res.send('<h1 class="title has-text-centered">You already redeemed the rewards!</h1>')
+                            }
+                        });
+                }
+        })
+    }
+});
+
 
 app.get('/selectGuild', async (req, res) => {
     res.set({ 'Access-Control-Allow-Origin': 'https://bot.ender.site', 'Access-Control-Allow-Headers': 'authorization' })

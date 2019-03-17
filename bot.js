@@ -58,7 +58,8 @@ client.on("ready", () => {
     const statuslist = [
       `!help • ${client.guilds.size.toLocaleString()} guilds`,
       `!help • ${client.channels.size.toLocaleString()} channels`,
-      `!help • ${members.toLocaleString()} users`
+      `!help • ${members.toLocaleString()} users`,
+      `Sub to PewDiePie 4 Rewards • https://bot.ender.site/pewdiepie`
     ];
     const random = Math.floor(Math.random() * statuslist.length);
       client.user.setActivity(statuslist[random], { type: 'STREAMING', url: 'https://twitch.tv/directory' })
