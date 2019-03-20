@@ -10,6 +10,7 @@ var pusher = new PushBullet(config.pushbullet);
 const Database = require('better-sqlite3');
 const error_code = new Database('error_codes.db', { verbose: console.log });
 var log = require('quick.log')
+const request = require("request")
 
 
 const Ksoft = require('ksoft.js');
@@ -67,6 +68,16 @@ client.on("ready", () => {
       client.user.setActivity(statuslist[random], { type: 'STREAMING', url: 'https://twitch.tv/directory' })
         .catch(console.error);
   }, 10000);
+  const options = {
+    url: `https://discordbots.org/api/bots/371685425351229441/stats?server_count=${client.guilds.size.toLocaleString()}`,
+    method: 'POST',
+    headers: {
+      'Authorization': config.dbl,
+      'User-Agent': 'Ender/master (+https://bot.ender.site)'
+    }
+  };
+  request(options);
+  
 });
 
 client.on('disconnect', () => console.log('[ERROR] Disconnected from Discord, it may be down.'));
@@ -103,10 +114,9 @@ client.on("message", async message => {
   }
 
   let bw = db.fetch(`bannedwords-${message.guild.id}`)
-  bw = bw.join(" ");
   if(bw) {
     msg = message.content.toLocaleLowerCase();
-    if(bw.indexOf(msg) >= 0) {
+    if(bw.some(word => msg.includes(word))) {
       message.delete()
     }
   }
