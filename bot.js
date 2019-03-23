@@ -68,15 +68,14 @@ client.on("ready", () => {
       client.user.setActivity(statuslist[random], { type: 'STREAMING', url: 'https://twitch.tv/directory' })
         .catch(console.error);
   }, 10000);
-  const options = {
-    url: `https://discordbots.org/api/bots/371685425351229441/stats?server_count=${client.guilds.size.toLocaleString()}`,
+  request({
+    url: `https://discordbots.org/api/bots/371685425351229441/stats?server_count=${client.guilds.size}`,
     method: 'POST',
     headers: {
       'Authorization': config.dbl,
       'User-Agent': 'Ender/master (+https://bot.ender.site)'
     }
-  };
-  request(options);
+  });
   
 });
 

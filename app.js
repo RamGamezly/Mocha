@@ -415,7 +415,9 @@ app.get('/dash/:guildId', async (req, res) => {
                                                     let msgs = db.fetch(`msgs-${g.id}`)   
                                                     if(!msgs) {
                                                         msgs = 0
-                                                    }                                 
+                                                    }             
+                                            let words = db.fetch(`bannedwords-525056817399726102`)
+                                            if(!words) { words = "" }
                                         res.render('index', { 
                                             guild: { 
                                                 name: `${g.name}`, 
@@ -426,7 +428,8 @@ app.get('/dash/:guildId', async (req, res) => {
                                                 online: `${online}`, 
                                                 invite: `${inviteurl}`, 
                                                 ownertag: `${g.owner.user.username}#${g.owner.user.discriminator}`, 
-                                                messages: `${msgs.toLocaleString()}` 
+                                                messages: `${msgs.toLocaleString()}`,
+                                                bannedwords: words.join(",")
                                             }, 
                                             title: `Dashboard • ${g.name}`, 
                                             user: { 
@@ -751,7 +754,65 @@ app.get('/options/:guildId/prefix/:prefix', async (req, res) => {
     }
 });
 
+app.get('/options/:guildId/moderation', async (req, res) => {
+    res.set({ 'Access-Control-Allow-Origin': 'https://bot.ender.site', 'Access-Control-Allow-Headers': 'authorization' })
+    var auth = req.get('Authorization')
+    if(auth) {
+        fetch('https://discordapp.com/api/users/@me', {
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth}` },
+        }).then(async i => {
+            var data = await i.text()
+            var json = JSON.parse(data)
+                if(json.id) {
+                        client.users.fetch(json.id)
+                        .catch(err => { if(err == 'DiscordAPIError: Unknown User') { 
+                            var obj = { error: `Unknown User` }; 
+                            var json = JSON.stringify(obj); 
+                            res.send(json)  } else { var obj = { error: `${err}` }; 
+                            var json = JSON.stringify(obj); 
+                            res.send(json) } })
+                        .then(async result => { 
+                            const g = client.guilds.get(req.params.guildId);
+                            if(g) {
+                                const nu = g.members.get(result.id);
+                                if(nu !== undefined) {
+                                    const p = nu.hasPermission("MANAGE_GUILD");
+                                    if(p == true) {
+                                        var bw = req.query.bwrds 
+                                        db.set(`bannedwords-${g.id}`, bw.split(','))
+                                        res.json({ bwrds: `${bw}` })
+                                    }
+                                    else {
+                                        res.render('errors/403', { title: 'Dashboard • No permission' })
+                                    }
+                                }
+                                else {
+                                    res.render('errors/404-user', { title: 'Dashboard • User not found' })
+                                }
+                            }
+                            else {
+                                res.render('errors/404-server', { title: 'Dashboard • Server not found' })
+                            }
+                        });
+                }
+                else {
+                    res.render('errors/400', { title: 'Dashboard • Invalid Token' })
+                }
+    });
+    }
+    else {
+        res.status(403).json({
+            message: 'Missing authorization'
+        });
+    }
+});
+
 app.options('/members/:guildId/:limit', async (req, res) => {
+    res.set({ 'Access-Control-Allow-Origin': 'https://bot.ender.site', 'Access-Control-Allow-Headers': 'authorization' })
+    return res.status(200).json({});
+})
+
+app.options('/options/:guildId/moderation', async (req, res) => {
     res.set({ 'Access-Control-Allow-Origin': 'https://bot.ender.site', 'Access-Control-Allow-Headers': 'authorization' })
     return res.status(200).json({});
 })
