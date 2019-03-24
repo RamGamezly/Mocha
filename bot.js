@@ -113,10 +113,12 @@ client.on("message", async message => {
   }
 
   let bw = db.fetch(`bannedwords-${message.guild.id}`)
-  if(bw) {
-    msg = message.content.toLocaleLowerCase();
-    if(bw.some(word => msg.includes(word))) {
-      message.delete()
+  if(bw !== undefined) {
+    if(bw) {
+      msg = message.content.toLocaleLowerCase();
+      if(bw.some(word => msg.includes(word))) {
+        message.delete()
+      }
     }
   }
 
@@ -199,6 +201,7 @@ const defaultSettings = {
 }
 
 client.on("guildCreate", guild => {
+  db.set(`ksbanprotection-${member.guild.id}`, true)
   db.set(`prefix-${guild.id}`, '!');
     const gcwelcome = guild.channels.find(channel => channel.permissionsFor(guild.me).has("SEND_MESSAGES"));
     console.log(`[${botname}] ${botname} has joined the guild '${guild.name}'`);
@@ -229,13 +232,16 @@ client.on("guildMemberAdd", async (member, user) => {
   ksoft.bans.check(member.id)
     .then(ban => {
       if(ban.is_banned == true) {
-        member.kick()
-        const embed = new Discord.MessageEmbed()
-          .setTitle("❌ Failed to join server.")
-          .setDescription("This server has global ban protection enabled, and as you are on that list you have been removed from the server. You may appeal your ban at https://bans.ksoft.si/check/me")
-          .setColor('#eb4d4b')
-        member.sendMessage(embed);
-        console.log(`Banned user ${member.tag} tried to join a server but was banned globally.`)
+        let ks = db.fetch(`ksbanprotection-${member.guild.id}`);
+        if(ks === true) {
+          member.kick()
+          const embed = new Discord.MessageEmbed()
+            .setTitle("❌ Failed to join server.")
+            .setDescription("This server has global ban protection enabled, and as you are on that list you have been removed from the server. You may appeal your ban at https://bans.ksoft.si/check/me")
+            .setColor('#eb4d4b')
+          member.sendMessage(embed);
+          console.log(`Banned user ${member.tag} tried to join a server but was banned globally.`)
+        }
       }
     });
     if(wc) {

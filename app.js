@@ -14,7 +14,7 @@ var Long = require("long");
 const rateLimit = require("express-rate-limit");
 const config = require("./authorization.json");
 var morgan = require('morgan');
-
+app.use(express.urlencoded())
 
 
 app.use(morgan('short'))
@@ -416,8 +416,26 @@ app.get('/dash/:guildId', async (req, res) => {
                                                     if(!msgs) {
                                                         msgs = 0
                                                     }             
-                                            let words = db.fetch(`bannedwords-525056817399726102`)
-                                            if(!words) { words = "" }
+                                            let words = db.fetch(`bannedwords-${g.id}`)
+                                            if(!words) { 
+                                                var wrds = ""
+                                            }
+                                            else {
+                                                var wrds = words.join(",");
+                                            }
+                                            let sf = db.fetch(`spamfilter-${g.id}`);
+                                            if(!sf) {
+                                                sf = "false"
+                                            }
+                                            let ks = db.fetch(`ksbanprotection-${g.id}`);
+                                            var total = 0;
+                                            g.members.forEach(m => {
+                                                let b = db.fetch(`balance-${m.id}`)
+                                                if(!b) {
+                                                    b = 0
+                                                }
+                                                total = total+b
+                                            });
                                         res.render('index', { 
                                             guild: { 
                                                 name: `${g.name}`, 
@@ -429,9 +447,13 @@ app.get('/dash/:guildId', async (req, res) => {
                                                 invite: `${inviteurl}`, 
                                                 ownertag: `${g.owner.user.username}#${g.owner.user.discriminator}`, 
                                                 messages: `${msgs.toLocaleString()}`,
-                                                bannedwords: words.join(",")
+                                                bannedwords: `${wrds}`,
+                                                antispam: `${sf}`,
+                                                ksoftbanpro: `${ks}`,
+                                                worth: `${total.toLocaleString()}`
                                             }, 
                                             title: `Dashboard • ${g.name}`, 
+                                            hex: (Math.random()*0xFFFFFF<<0).toString(16),
                                             user: { 
                                                 name: `${nu.user.username}`, 
                                                 avatar: `https://cdn.discordapp.com/avatars/${nu.user.id}/${nu.user.avatar}.png?size=1024` 
@@ -754,7 +776,7 @@ app.get('/options/:guildId/prefix/:prefix', async (req, res) => {
     }
 });
 
-app.get('/options/:guildId/moderation', async (req, res) => {
+app.post('/options/:guildId/moderation', async (req, res) => {
     res.set({ 'Access-Control-Allow-Origin': 'https://bot.ender.site', 'Access-Control-Allow-Headers': 'authorization' })
     var auth = req.get('Authorization')
     if(auth) {
@@ -778,9 +800,50 @@ app.get('/options/:guildId/moderation', async (req, res) => {
                                 if(nu !== undefined) {
                                     const p = nu.hasPermission("MANAGE_GUILD");
                                     if(p == true) {
-                                        var bw = req.query.bwrds 
-                                        db.set(`bannedwords-${g.id}`, bw.split(','))
-                                        res.json({ bwrds: `${bw}` })
+                                        var bw = req.body.bwrds 
+                                        if(!bw) {
+                                            var bws = [];
+                                            var bwmsg = "None"
+                                            db.delete(`bannedwords-${g.id}`)
+                                        }
+                                        else {
+                                            var bws = bw.split(',');
+                                            var bwmsg = bw.split(",").join(", ")
+                                            db.set(`bannedwords-${g.id}`, bws)
+                                        }
+
+                                        var as = req.body.as 
+                                        if(as === "true") {
+                                            db.set(`spamfilter-${g.id}`, true)
+                                            var amsg = "Enabled"
+                                        }
+                                        if(as === "false") {
+                                            db.set(`spamfilter-${g.id}`, false)
+                                            var amsg = "Disabled"
+                                        }
+
+                                        var ks = req.body.ksoftbanpro
+                                        if(ks === "true") {
+                                            db.set(`ksbanprotection-${g.id}`, true)
+                                            var ksmsg = "Enabled"
+                                        }
+                                        if(ks === "false") {
+                                            db.set(`ksbanprotection-${g.id}`, false)
+                                            var ksmsg = "Disabled"
+                                        }
+
+                                        const channel = getDefaultChannel(g);
+                                        const embed = new Discord.MessageEmbed()
+                                            .setTitle("✏ Moderation settings were updated on the Dashboard")
+                                            .setDescription(
+                                                `🗨 Banned words • ||\`${bwmsg}\`||
+                                                🕒 Anti-spam • \`${amsg}\`
+                                                🛡 Ban Protection • \`${ksmsg}\`
+                                            `)
+                                            .setFooter(`Changed by ${nu.user.username}`, nu.user.displayAvatarURL())
+                                            .setColor("#3498db")
+                                        channel.send(embed)
+                                        res.json({ bwrds: `${bw}`, as: `${as}`, ks: `${ks}` })
                                     }
                                     else {
                                         res.render('errors/403', { title: 'Dashboard • No permission' })
@@ -853,6 +916,5 @@ app.get('/bot-uptime', async (req, res) => {
     })
 
 app.enable('trust proxy')
-
 
   
