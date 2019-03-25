@@ -11,6 +11,7 @@ const Database = require('better-sqlite3');
 const error_code = new Database('error_codes.db', { verbose: console.log });
 var log = require('quick.log')
 const request = require("request")
+const DBL = require("dblapi.js");
 
 
 const Ksoft = require('ksoft.js');
@@ -37,6 +38,7 @@ Structures.extend('Guild', Guild => {
 
 const client = new Discord.Client({autoReconnect:true});
 client.commands = new Discord.Collection();
+const dbl = new DBL(config.dbl, client);
 
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
@@ -68,19 +70,11 @@ client.on("ready", () => {
       client.user.setActivity(statuslist[random], { type: 'STREAMING', url: 'https://twitch.tv/directory' })
         .catch(console.error);
   }, 10000);
-  request({
-    url: `https://discordbots.org/api/bots/371685425351229441/stats?server_count=${client.guilds.size}`,
-    method: 'POST',
-    headers: {
-      'Authorization': config.dbl,
-      'User-Agent': 'Ender/master (+https://bot.ender.site)'
-    }
-  });
   
 });
 
 client.on('disconnect', () => console.log('[ERROR] Disconnected from Discord, it may be down.'));
-//client.on('reconnecting', () => console.log('Attempting to reconnect to server.'));
+process.on('unhandledRejection', error => console.error('Uncaught Promise Rejection', error));
 client.on("error", (e) => console.error(e));
 client.on("warn", (e) => console.warn(e));
 //client.on("debug", (e) => console.info(e));
@@ -145,7 +139,8 @@ client.on("message", async message => {
   
   const cmd  = client.commands.get(command)
 
-
+  || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(command));
+  
 
   if(cmd) {
     let spamfilter = await db.fetch(`spamfilter-${message.guild.id}`);

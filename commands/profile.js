@@ -6,7 +6,8 @@ const db = require("quick.db");
 
 module.exports = {
     name: 'p',
-	description: 'View a user\'s profile',
+    description: 'View a user\'s profile',
+    aliases: ['profile', 'user', 'userinfo'],
 	async execute(message, client, args) {
         const palette = await Vibrant.from(`https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png?size=1024`).getPalette();
         var hex = rgbHex(`rgb(${palette.Vibrant._rgb[0]}, ${palette.Vibrant._rgb[1]}, ${palette.Vibrant._rgb[2]})`);

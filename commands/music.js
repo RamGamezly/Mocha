@@ -11,6 +11,7 @@ const defaultRegions = {
     eu: ["london", "frankfurt", "amsterdam", "russia", "eu-central", "eu-west"],
     us: ["us-central", "us-west", "us-east", "us-south", "brazil"]
 };
+const db = require("quick.db")
 
 const YouTube = require('simple-youtube-api');
 const youtube = new YouTube(botconfig.youtube);
@@ -60,8 +61,12 @@ client.on("error", console.error)
 
 client.on("message", async message => {
     if (message.author.bot || !message.guild) return;
-    if (!message.content.startsWith(config.prefix)) return;
-    const args = message.content.slice(config.prefix.length).trim().split(/ +/g);
+    let prefix = db.fetch(`prefix-${message.guild.id}`);
+    if(!prefix) {
+        prefix = "!"
+    }
+    if (!message.content.startsWith(prefix)) return;
+    const args = message.content.slice(prefix.length).trim().split(/ +/g);
     const command = args.shift().toLowerCase();
 
     const noplayer = {
@@ -71,17 +76,10 @@ client.on("message", async message => {
       };
 
       async function Play(song, message, player) {
-        player.play(song.track);
-        player.once("error", console.error);
-        player.once("end", async data => {
-                if (data.reason === "REPLACED") {
-                        const embed = new Discord.MessageEmbed()
-                            .setTitle("👋 Queue Finished, leaving voice channel.")
-                            .setDescription("You can always add another track to the queue by typing `!play` followed by a search query.")
-                            .setColor('#3498db')
-                        message.channel.send(embed);
-                }
-        });
+        if(message.guild.queue.size == 0) {
+            player.play(song.track);
+        }
+
             console.log(song)
           
       }
@@ -100,12 +98,25 @@ client.on("message", async message => {
                     .setColor('#e74c3c')
                 return message.channel.send(embed)
             }
-                
-                const queueConstruct = {
-                    songs: [ ]
-                }
-
-                Play(song, message, player)                      
+                console.log(song)
+                message.guild.queue.push(song)
+                    player.play(message.guild.queue[0].song.track);
+                player.once("error", console.error);
+                player.once("end", async data => {
+                        if (data.reason === "REPLACED") {
+                                message.guild.queue.splice(1)        
+                                if(message.guild.queue.size < 1) {
+                                    player.play(message.guild.queue.song[1].track);
+                                }
+                                else {
+                                    const embed = new Discord.MessageEmbed()
+                                        .setTitle("👋 Queue Finished, leaving voice channel.")
+                                        .setDescription("You can always add another track to the queue by typing `!play` followed by a search query.")
+                                        .setColor('#3498db')
+                                    message.channel.send(embed);
+                                }
+                        }
+                });                  
       }
 
     if (command === "play") {
