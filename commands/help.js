@@ -24,7 +24,7 @@ module.exports = {
             .addField("👢 Moderation", "`purge, ban, kick, mute`")
             .addField("🎉 Fun", "`8ball, cat, scratchcard, slots, hypixel`")
             .addField("💸 Economy", "`bank, bank bal, bank work, bank resign, bank crime, bank withdraw, bank deposit, bank hack`")
-            .addField("🎧 Music", "`search, stop, now`")
+            .addField("🎧 Music", "`play, stop, now, pause, resume, earrape`")
             .addField("👀 Administrative", "`eval, speedtest`\n**:warning: WARNING! Subscribe to PewDiePie here to get epic rewards! https://bot.ender.site/pewdiepie**\n\nYou can get more information on a command by typing it followed by `help`.")
             .setColor("#3498db")
             .setTimestamp(Date.now())
