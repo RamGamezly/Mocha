@@ -19,6 +19,7 @@ const YouTube = require('simple-youtube-api');
 const youtube = new YouTube(botconfig.youtube);
 const numWords = require('num-words');
 const moment = require('moment');
+const log = require('../utils/logger')
 const utm_track = '?utm_source=Ender+Bot' + '?utm_uri=https%3A%2F%2Fbot.ender.site'
 
 const Database = require('better-sqlite3');
@@ -50,7 +51,8 @@ class MusicClient extends Client {
 			user: this.user.id,
 			shards: 1,
 		});
-		console.log('[Ender] Lavalink client ready to use.');
+		const fn = __filename.slice(__dirname.length + 1);
+		log("info", `Loaded Lavalink client`, fn);
 	}
 
 }

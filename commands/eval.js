@@ -5,6 +5,7 @@ const fs = require('fs');
 const Discord = require('discord.js');
 const ytapi = require('simple-youtube-api');
 const db = require("quick.db");
+const log = require('../utils/logger')
 
 function clean(text) {
     if (typeof(text) === "string")

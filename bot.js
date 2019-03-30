@@ -13,6 +13,7 @@ const pusher = new PushBullet(config.pushbullet);
 const Database = require('better-sqlite3');
 const error_code = new Database('error_codes.db', { verbose: console.log });
 const DBL = require('dblapi.js');
+const log = require('./utils/logger')
 
 const Ksoft = require('ksoft.js');
 const ksoft = new Ksoft(config.ksoft);
@@ -29,7 +30,6 @@ Structures.extend('Guild', Guild => {
 	}
 	return EnderGuild;
 });
-
 
 const client = new Discord.Client({ autoReconnect:true });
 client.commands = new Discord.Collection();
@@ -49,10 +49,14 @@ const queue = { };
 
 // Bot load event
 client.on('ready', () => {
-	console.log(`[${botname}] Loaded the bot.`);
-	console.log(`[${botname}] Logged into ${client.user.tag} (${client.user.id})`);
-	process.title = `${client.user.tag} (${client.user.id})`;
-	setInterval(async () => {
+
+	const fn = __filename.slice(__dirname.length + 1);
+
+	log("info", `Logged into ${client.user.tag}`, fn);
+
+	setInterval(game, 9000);
+
+	function game() {
 		let members = 0;
 		client.guilds.forEach(function(guild) { members = guild.memberCount + members; });
 		const statuslist = [
@@ -62,9 +66,9 @@ client.on('ready', () => {
 			'Sub to PewDiePie 4 Rewards • https://bot.ender.site/pewdiepie',
 		];
 		const random = Math.floor(Math.random() * statuslist.length);
-		client.user.setActivity(statuslist[random], { type: 'STREAMING', url: 'https://twitch.tv/directory' })
+		client.user.setActivity(statuslist[random], { type: 'STREAMING', url: 'https://twitch.tv/enderbot___' })
 			.catch(console.error);
-	}, 10000);
+	}
 
 });
 

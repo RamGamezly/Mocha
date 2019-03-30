@@ -7,9 +7,9 @@ const client = new Discord.Client();
 module.exports = {
 	name: 'reload',
 	description: 'Reload a command file.',
-	async execute(message, args) {
+	async execute(message, client, args) {
         const argu = message.content.split(' ');
-        if(argu[1] == 'help') {
+        if(args[0] == 'help') {
             const embed = new Discord.MessageEmbed()
                 .setTitle(`⁉ Help for \`reload\``)
                 .setDescription("Reload a command file. Ends in `.js`.")
