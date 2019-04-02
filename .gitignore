@@ -13,3 +13,4 @@ config.json
 node_modules
 test.txt
 error_codes.db
+utils/welcome-card
