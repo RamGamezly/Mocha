@@ -3,7 +3,7 @@
 /* eslint-disable no-shadow */
 /* eslint-disable no-empty-function */
 /* eslint-disable no-unused-vars */
-const { Structures } = require('discord.js');
+const { Client, Structures } = require('discord.js');
 const fs = require('fs');
 const Discord = require('discord.js');
 const db = require('quick.db');
@@ -14,6 +14,50 @@ const Database = require('better-sqlite3');
 const error_code = new Database('error_codes.db', { verbose: console.log });
 const DBL = require('dblapi.js');
 const log = require('./utils/logger')
+
+const fetch = require('node-fetch');
+const { PlayerManager } = require('discord.js-lavalink');
+const { inspect } = require('util');
+const lavaconfig = require('./lavalink.json');
+
+const YouTube = require('simple-youtube-api');
+const youtube = new YouTube(config.youtube);
+const moment = require('moment');
+
+Structures.extend('Guild', Guild => {
+	class EnderGuild extends Guild {
+		constructor(...args) {
+			super(...args);
+			this.queue = [];
+		}
+	}
+	return EnderGuild;
+});
+
+
+class MusicClient extends Client {
+
+	constructor(options) {
+		super(options);
+
+		this.player = null;
+
+		this.once('ready', this._ready.bind(this));
+	}
+
+	_ready() {
+		this.player = new PlayerManager(this, lavaconfig.nodes, {
+			user: this.user.id,
+			shards: 1,
+		});
+		const fn = __filename.slice(__dirname.length + 1);
+		log("info", `Logged into ${client.user.tag}`, fn);
+		log("info", `Loaded Lavalink client`, fn);
+	}
+
+}
+
+const client = new MusicClient();
 
 const Ksoft = require('ksoft.js');
 const ksoft = new Ksoft(config.ksoft);
@@ -31,14 +75,19 @@ Structures.extend('Guild', Guild => {
 	return EnderGuild;
 });
 
-const client = new Discord.Client({ autoReconnect:true });
 client.commands = new Discord.Collection();
 const dbl = new DBL(config.dbl, client);
 
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+const musicCmdFiles = fs.readdirSync('./commands/music').filter(file => file.endsWith('.js'));
 
 for (const file of commandFiles) {
 	const command = require(`./commands/${file}`);
+	client.commands.set(command.name, command);
+}
+
+for (const file of musicCmdFiles) {
+	const command = require(`./commands/music/${file}`);
 	client.commands.set(command.name, command);
 }
 
@@ -49,10 +98,6 @@ const queue = { };
 
 // Bot load event
 client.on('ready', () => {
-
-	const fn = __filename.slice(__dirname.length + 1);
-
-	log("info", `Logged into ${client.user.tag}`, fn);
 
 	setInterval(game, 9000);
 
@@ -155,6 +200,7 @@ client.on('message', async message => {
 			setTimeout(() => {
 				talkedRecently.delete(message.author.id);
 			}, 3500);
+
 			cmd.execute(message, client, args).catch(err => {
 				const snowflake = parseInt(message.author.id) + Math.round(+new Date() * 1000);
 				const error_msgs = ['Ender did an oopsie!', 'Error successful!', 'Something bad happened', 'You really screwed up this time.', 'Big oopsie happened', 'Not my fault.'];

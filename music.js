@@ -90,7 +90,7 @@ client.on('message', async message => {
 				.setTitle(`❌ ${emsg}`)
 				.setColor('#e74c3c')
 				.setDescription(`A error occoured while trying to perform this command.\n\`\`\`${err}\`\`\`\nFor support, reference this code to the developer \`${snowflake}\``);
-			return message.channel.send(embed);
+			message.channel.send(embed);
 			const row = error_code.prepare('INSERT INTO error (ErrorCode, ErrorMsg, UserID, GuildID, Command) VALUES (?, ?, ?, ?, ?)');
 			const final = row.run(`${snowflake}`, `${err}`, `${message.author.id}`, `${message.guild.id}`, `${message.content}`);			
 		}
@@ -104,8 +104,7 @@ client.on('message', async message => {
 ${song.info.title}
 
 [Volume]: ${player.state.volume}%
-[Equalizer]: Flat
-				\`\`\``)
+[Equalizer]: Flat\`\`\``)
 				.addField("🕒 Duration", moment.utc(song.info.length).format('HH:mm:ss'), true)
 				.addField("🎼 Artist", song.info.author, true)
 				.setThumbnail(`https://i.ytimg.com/vi/${song.info.identifier}/maxresdefault.jpg`)
@@ -115,6 +114,7 @@ ${song.info.title}
 		if(message.guild.queue !== "") {
 			console.log("passed check for queue, pushing");
 			message.guild.queue.push(song);
+			message.channel.send(`\`\`\`Added ${song.info.title} to the queue.\`\`\``)
 		}	
 	}
 
@@ -137,17 +137,24 @@ ${song.info.title}
 		player.once('error', console.error);
 		player.once('end', async data => {
 			if(data.reason !== "REPLACED") {
-				message.guild.queue = []
-				await client.player.leave(message.guild.id);
-				const embed = new Discord.MessageEmbed()
-					.setTitle('👋 Bye!')
-					.setDescription('All tracks in the queue were played. You can add another song by runnning the `play` command.')
-					.setColor('#f1c40f');
-				return message.channel.send(embed);
+				if(message.guild.queue[1]) {
+					message.guild.queue.shift();
+					const video = " "
+					queueManager(message, message.guild.queue[0].info.identifier, video)
+				}
+				else {
+					if(message.guild.queue == "") {
+						message.guild.queue = []
+						await client.player.leave(message.guild.id);
+						const embed = new Discord.MessageEmbed()
+							.setTitle('👋 Bye!')
+							.setDescription('All tracks in the queue were played. You can add another song by runnning the `play` command.')
+							.setColor('#f1c40f');
+						return message.channel.send(embed);
+					}
+				}
 			}
 			else {
-				message.guild.queue.shift();
-				player.play(message.guild.queue[0].track);
 			}
 		});	
 
@@ -183,34 +190,18 @@ ${song.info.title}
 		catch (error) {
 			try {
 				const videos = await youtube.searchVideos(track, 5);
-				let index = 0;
-				const videoz = videos.map(video2 => `:${numWords(++index)}: ${video2.title} - [Watch Video](https://www.youtube.com/watch?v=${video2.id})`).join('\n');
-				const embed = new Discord.MessageEmbed()
-					.setTitle(`🔎 Searched for '${track}'`)
-					.setDescription(`${videoz}`)
-					.setColor('#3498db')
-					.setThumbnail(message.author.displayAvatarURL())
-					.setImage(`https://img.youtube.com/vi/${videos[0].id}/hqdefault.jpg`)
-					.setFooter('Type which track you would like to play, for example typing \'1\' would play track one.', `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png?size=1024`);
-				message.channel.send(embed);
-				try {
-					const ch = message.channel;
-					const filter = m => m.content >= 1 || m.content <= 5 || m.content == 'cancel';
-					const collector = ch.createMessageCollector(filter, { time: 30000 });
-					collector.on('collect', async m => {
-						if(m.author.id == '371685425351229441') return;
-						if(m.content == 'cancel') {
-							message.reply('Cancelled.');
-						}
-						else {
-							console.log(m.content);
-							const videoIndex = parseInt(m.content);
-							console.log(videoIndex);
-							const video = await youtube.getVideoByID(videos[videoIndex - 1].id);
-							queueManager(m, video, track);
-						}
-					});
+				if(videos[0].id) {
+					const video = await youtube.getVideoByID(videos[0].id);
+					queueManager(message, video, track);
+					message.react("561647339916230656")
 				}
+				else {
+					const embed = new Discord.MessageEmbed()
+						.setTitle(`❌ Nothing found for '${args.join(' ')}'`)
+						.setColor('#e74c3c');
+					return message.channel.send(embed);
+				}
+			}
 				catch (err) {
 					message.delete();
 					console.error(err);
@@ -227,15 +218,6 @@ ${song.info.title}
 					client.channels.get('547746237454090260').send(errEmbed);
 				}
 			}
-			catch (err) {
-				console.error(err);
-				const embed = new Discord.MessageEmbed()
-					.setTitle(`❌ Nothing found for '${args.join(' ')}'`)
-					.setColor('#e74c3c');
-				return message.channel.send(embed);
-			}
-
-		}
 	}
 		if (command === 'stop' | command === 'leave') {
 			await client.player.leave(message.guild.id);

@@ -14,7 +14,7 @@ var Long = require("long");
 const rateLimit = require("express-rate-limit");
 const config = require("./authorization.json");
 var morgan = require('morgan');
-app.use(express.urlencoded())
+app.use(express.urlencoded({ extended: false }))
 
 
 app.use(morgan('short'))

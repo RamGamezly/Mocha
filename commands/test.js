@@ -1,10 +1,30 @@
-const YouTube = require('simple-youtube-api');
-const youtube = new YouTube('AIzaSyAC_9B0XCKW9Y-dd90p7Zd1foeerMZv3M8');
+const { createCanvas, loadImage } = require('canvas')
+const canvas = createCanvas(200, 200)
+const ctx = canvas.getContext('2d')
+
 
 module.exports = {
 	name: 'test',
 	description: 'Search and play a track',
 	async execute(message, args) {
-        message.reply(err)
+		// Write "Awesome!"
+		ctx.font = '30px Impact'
+		ctx.rotate(0.1)
+		ctx.fillText('Awesome!', 50, 100)
+
+		// Draw line under text
+		var text = ctx.measureText('Awesome!')
+		ctx.strokeStyle = 'rgba(0,0,0,0.5)'
+		ctx.beginPath()
+		ctx.lineTo(50, 102)
+		ctx.lineTo(50 + text.width, 102)
+		ctx.stroke()
+
+		// Draw cat with lime helmet
+		loadImage('examples/images/lime-cat.jpg').then((image) => {
+		ctx.drawImage(image, 50, 0, 70, 70)
+
+		console.log('<img src="' + canvas.toDataURL() + '" />')
+		})
     }
 }
