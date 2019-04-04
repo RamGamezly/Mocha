@@ -15,6 +15,7 @@ const rateLimit = require("express-rate-limit");
 const config = require("./authorization.json");
 var morgan = require('morgan');
 app.use(express.urlencoded({ extended: false }))
+const log = require('./utils/logger')
 
 
 app.use(morgan('short'))
@@ -910,9 +911,15 @@ app.get('/bot-uptime', async (req, res) => {
     return res.status(200).json({});
 })
 
+app.get('/c/:channelId', async (req, res) => {
+    res.set({ 'Access-Control-Allow-Origin': 'https://bot.ender.site'})
+    const c = await client.channels.get(req.params.channelId);
+    return res.status(200).json(c);    
+})
+
     app.listen(port, () => {
         process.title = `API`
-        console.log(`App listening on port ${port}!`)
+        log("info", "Started API.", "app.js")
     })
 
 app.enable('trust proxy')
