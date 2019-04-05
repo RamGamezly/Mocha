@@ -1,4 +1,4 @@
-[![Ender](https://bot.ender.site/img/ender-banner-edge.png)](https://bot.ender.site)
+[![Ender](https://bot.ender.site/img/ender-banner-edge@256.png)](https://bot.ender.site)
 
 # Ender
 ### I'm Ender, the only bot you'll ever need.
