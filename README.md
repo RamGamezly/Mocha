@@ -1,7 +1,7 @@
 [![Ender](https://bot.ender.site/img/ender-banner-edge@256.png)](https://bot.ender.site)
 
-# Ender
-### I'm Ender, the only bot you'll ever need.
+<p align="center">Ender</p>
+<p align="center">I'm Ender, the only bot you'll ever need.</p>
 
 ## Documentation
 
