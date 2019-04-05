@@ -1,10 +1,4 @@
-<p align="center">
-  <img src="https://bot.ender.site/img/enderbot.png" width="100"> 
-</p>
-<h1 class="title" align="center">Ender</h1>
-<h2 class="subtitle" align="center"></h2>
-
-# Ender
+[![Ender](https://bot.ender.site/img/ender-banner.png)](https://bot.ender.site)
 
 I'm Ender, the only bot you'll ever need.
 
