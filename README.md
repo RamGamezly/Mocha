@@ -1,7 +1,7 @@
 [![Ender](https://bot.ender.site/img/ender-banner-edge@256.png)](https://bot.ender.site)
 
-<p align="center">Ender</p>
-<p align="center">I'm Ender, the only bot you'll ever need.</p>
+<h1 align="center">Ender</h1>
+<h3 align="center">I'm Ender, the only bot you'll ever need.</h3>
 
 ## Documentation
 
