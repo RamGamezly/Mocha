@@ -129,10 +129,12 @@ module.exports = {
 			}
 				if(args[0] === "on") {
 					player.volume(250)
+					client.player.get(message.guild.id).setEQ([{ band: 0.25, gain: 1 }, { band: 1, gain: 1 }])
 					await message.react("👂");
 					await message.react("🔪");
 				}
 				if(args[0] === "off") {
+					client.player.get(message.guild.id).setEQ([{ band: 0, gain: 0 }, { band: 0, gain: 0 }])
 					player.volume(100)
 					message.react("🔊")
 				}
