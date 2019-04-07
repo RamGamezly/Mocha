@@ -32,11 +32,23 @@ module.exports = {
             }
             if(wmsg) {
                 if(wmsg.includes("`") == true) {
-                    nwmsg = wmsg.replace(/`/g, "'")
+                    var nwmsg = wmsg.replace(/`/g, "'")
                 }
                 else {
-                    nwmsg = wmsg
+                    var nwmsg = wmsg
                 }                
+            }
+            else {
+                wmsg = "No welcome message set."
+            }
+            if(!prefix) {
+                prefix = "!"
+            }
+            if(!wc) {
+                wc = "Welcome channel not set."
+            }
+            else {
+                wc = `<#${wc}>`
             }
             const embed = new Discord.MessageEmbed()
                 .setTitle(`⚙ Server Config`)
@@ -44,7 +56,7 @@ module.exports = {
                 .addField("❗ Prefix", `\`${prefix}\``)
                 .addField("🕒 Antispam", `${as}`)
                 .addField("👋 Welcome Message", `\`\`\`vbs\n${nwmsg}\`\`\``)
-                .addField("#⃣ Welcome Channel", `<#${wc}>`)
+                .addField("#⃣ Welcome Channel", wc)
                 .setColor('#3498db')
                 .setFooter(`Requested by ${message.author.username}`, message.author.displayAvatarURL())
             message.channel.send(embed)             
