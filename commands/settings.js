@@ -39,7 +39,7 @@ module.exports = {
                 }                
             }
             else {
-                wmsg = "No welcome message set."
+                nwmsg = "No welcome message set."
             }
             if(!prefix) {
                 prefix = "!"
