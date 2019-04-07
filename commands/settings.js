@@ -30,11 +30,13 @@ module.exports = {
             else {
                 as = "**Anti Spam** is disabled."
             }
-            if(wmsg.includes("`") == true) {
-                nwmsg = wmsg.replace(/`/g, "'")
-            }
-            else {
-                nwmsg = wmsg
+            if(wmsg) {
+                if(wmsg.includes("`") == true) {
+                    nwmsg = wmsg.replace(/`/g, "'")
+                }
+                else {
+                    nwmsg = wmsg
+                }                
             }
             const embed = new Discord.MessageEmbed()
                 .setTitle(`⚙ Server Config`)
