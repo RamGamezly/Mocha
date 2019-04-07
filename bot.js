@@ -170,7 +170,10 @@ client.on('message', async message => {
 
 	// Prefix handler
 	const fetched = await db.fetch(`prefix-${message.guild.id}`);
-	if (fetched === null) prefix = '!'; // Basically, if the prefix is not set, set it to '!' no matter what.
+	if (fetched === null) {
+		prefix = '!';
+		db.set(`prefix-${message.guild.id}`, "!")
+	} // Basically, if the prefix is not set, set it to '!' no matter what.
 	else prefix = fetched;
 
 
