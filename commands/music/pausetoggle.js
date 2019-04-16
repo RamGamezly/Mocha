@@ -36,6 +36,12 @@ module.exports = {
 				.setColor('#e74c3c');
 			return message.channel.send(embed);
 		}
+		if (message.guild.queue[0] == undefined) {
+			const embed = new Discord.MessageEmbed()
+				.setTitle(':x: Nothing playing.')
+				.setColor('#e74c3c');
+			return message.channel.send(embed);
+		}
 		const prefix = db.fetch(`prefix-${message.guild.id}`);
 		args = message.content.slice(prefix.length).split(/ +/);
 		const command = args.shift().toLowerCase();

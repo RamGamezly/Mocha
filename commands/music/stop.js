@@ -36,6 +36,12 @@ module.exports = {
 				.setColor('#e74c3c');
 			return message.channel.send(embed);
 		}
+		if (message.guild.queue[0] == undefined) {
+			const embed = new Discord.MessageEmbed()
+				.setTitle(':x: Nothing playing.')
+				.setColor('#e74c3c');
+			return message.channel.send(embed);
+		}
 		await client.player.leave(message.guild.id)
 		message.guild.queue = []
 		message.react("👍")	
