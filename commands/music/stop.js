@@ -45,6 +45,6 @@ module.exports = {
 		await client.player.leave(message.guild.id)
 		message.guild.queue = []
 		message.react("👍")	
-		log("warn", `Playback was stopped on command in ${message.guild.name} by ${message.author.tag}`)		
+		log("warn", `Playback was stopped on command in ${message.guild.name} by ${message.author.tag}`)	
     }
 }

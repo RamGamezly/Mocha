@@ -15,7 +15,9 @@ const rateLimit = require("express-rate-limit");
 const config = require("./authorization.json");
 var morgan = require('morgan');
 app.use(express.urlencoded({ extended: false }))
-const log = require('./utils/logger')
+const log = require('./utils/logger');
+const Ksoft = require("ksoft.js");
+const ksoft = new Ksoft(config.ksoft)
 
 
 app.use(morgan('short'))
@@ -240,6 +242,13 @@ app.get('/_/bulma.css', async (req, res) => {
     res.sendFile(__dirname+"/_/bulma.css");
 });
 
+app.get('/v4/dot-browser/weather/:ip', async (req, res) => {
+    const weather = await ksoft.kumo.geoip(req.params.ip);
+    weather.poweredby = "https://api.ksoft.si";
+    weather.data.apis = "";
+    res.json(weather);
+});
+
 app.options('/dash/:guildId', async (req, res) => {
     res.set({ 'Access-Control-Allow-Origin': 'https://bot.ender.site', 'Access-Control-Allow-Headers': 'authorization' })
     var auth = req.get('Authorization')
@@ -272,6 +281,10 @@ app.options('/dash/:guildId', async (req, res) => {
             }
 });    
 })
+
+app.get('/commands', (req, res) => {
+    
+});
 
 
 app.options('/selectGuild', async (req, res) => {

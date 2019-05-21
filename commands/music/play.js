@@ -129,6 +129,12 @@ module.exports = {
 							.setColor('#e74c3c');
 						return message.channel.send(embed);
 					}
+					if(!args[0]) {
+						const embed = new Discord.MessageEmbed()
+							.setTitle("ℹ Specify either a URL or a search query.")
+							.setColor("#e74c3c")
+						return message.channel.send(embed)
+					}
 					let [...track] = args;
 					track = track.join(' ');
 					if(message.guild.queue[0] == undefined) {
