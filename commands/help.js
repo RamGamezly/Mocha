@@ -22,7 +22,7 @@ module.exports = {
             .setDescription(`I'm **Ender**, the only bot you'll ever need.\n\nThe prefix for all commands here is \`${prefix}\`.`)
             .addField("📘 General", "`bot, ping, help, settings, p`")
             .addField("👢 Moderation", "`purge, ban, kick, mute`")
-            .addField("🎉 Fun", "`8ball, cat, scratchcard, slots, hypixel`")
+            .addField("🎉 Fun", "`8ball, cat, scratchcard, slots, hypixel, penis`")
             .addField("💸 Economy", "`bank, bank bal, bank work, bank resign, bank crime, bank withdraw, bank deposit, bank hack`")
             .addField("🎧 Music", "`play, stop, now, pause, resume, earrape`")
             .addField("👀 Administrative", "`eval, speedtest`\n\nYou can get more information on a command by typing it followed by `help`.")

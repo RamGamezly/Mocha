@@ -13,7 +13,7 @@ const pusher = new PushBullet(config.pushbullet);
 const Database = require('better-sqlite3');
 const error_code = new Database('error_codes.db', { verbose: console.log });
 const DBL = require('dblapi.js');
-const log = require('./utils/logger')
+const log = require('./utils/logger');
 
 const fetch = require('node-fetch');
 const { PlayerManager } = require('discord.js-lavalink');
