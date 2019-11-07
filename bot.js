@@ -10,7 +10,6 @@ const db = require('quick.db');
 const PushBullet = require('pushbullet');
 const config = require('./authorization.json');
 const pusher = new PushBullet(config.pushbullet);
-const Database = require('better-sqlite3');
 const error_code = new Database('error_codes.db', { verbose: console.log });
 const DBL = require('dblapi.js');
 const log = require('./utils/logger');
