@@ -14,7 +14,7 @@ module.exports = {
                         const embed = new Discord.MessageEmbed()
                             .setTitle(`⁉ Help for \`bot\``)
                             .setDescription("Bot Stats")
-                            .addField("📘 Syntax", "`bot`")
+                            .addField("Syntax", "`bot`")
                             .setColor('#3498db')
                             .setFooter(`Requested by ${message.author.username}`, message.author.displayAvatarURL())
                         return message.channel.send(embed)   
@@ -24,8 +24,8 @@ module.exports = {
                 var users = 0
                 client.guilds.forEach(function(guild) { users = guild.memberCount + users });
                 const embed = new Discord.MessageEmbed()
-                        .setTitle("🤖 Ender Bot Statistics")
-                        .setDescription("I'm **Ender**, the only bot you'll ever need.")
+                        .setTitle("Mocha Bot Statistics")
+                        .setDescription("I'm Mocha")
                         .setColor("#3498db")
                         .addField(":up: Uptime", `I've been alive for ${util.uptime()} :knife:`)
                         .addField(":control_knobs: CPU", `Intel™ Duel Xeon E5-2630`, true)
@@ -34,9 +34,9 @@ module.exports = {
                         .addField(":desktop: OS", `Windows Server 2016`, true)
                         .addField(`<:nodejs:541895676397748234> NodeJS Version`, `${process.versions.node}`, true)
                         .addField(`<:discordjs:541904094030462987> Discord.js Version`, `${version}`, true)
-                        .addField(`👪 Members`, users.toLocaleString(), true)
-                        .addField(`🏰 Servers`, client.guilds.size, true)
-                        .addField(`❗ Prefix`, prefix, true)
+                        .addField(`Members`, users.toLocaleString(), true)
+                        .addField(`Servers`, client.guilds.size, true)
+                        .addField(`Prefix`, prefix, true)
                         .setFooter(`Requested by ${message.author.username}`, message.author.displayAvatarURL())
                         .setTimestamp()
                 message.channel.send({embed});
