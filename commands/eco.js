@@ -21,18 +21,18 @@ module.exports = {
         const argu = message.content.split(' ');
         if(argu[1] == 'help') {
             let eEmbed = new Discord.MessageEmbed()
-                .setTitle(`🏦 Bank of Ender`)
-                .addField("💰 Economy", "`bal, crime, withdraw, deposit, create`")
-                .addField("💼 Work", "`work, resign`")
+                .setTitle(`Bank of Mocha`)
+                .addField("Economy", "`bal, crime, withdraw, deposit, create`")
+                .addField("Work", "`work, resign`")
                 .setDescription(`All commands below start with \`bank\``)
                 .setColor("#3498db")
             return message.channel.send(eEmbed);  
         }
         if(!argu[1]) {
             let eEmbed = new Discord.MessageEmbed()
-                .setTitle(`🏦 Bank of Ender`)
-                .addField("💰 Economy", "`bal, crime, withdraw, deposit, create`")
-                .addField("💼 Work", "`work, resign`")
+                .setTitle(`Bank of Mocha`)
+                .addField("Economy", "`bal, crime, withdraw, deposit, create`")
+                .addField("Work", "`work, resign`")
                 .setDescription(`All commands below start with \`bank\``)
                 .setColor("#3498db")
             return message.channel.send(eEmbed);            
@@ -41,7 +41,7 @@ module.exports = {
             let bankno = await db.fetch(`bankaccnum-${message.member.id}`);
             if (bankno === null) {
                 let eEmbed = new Discord.MessageEmbed()
-                    .setTitle(`🏦 Bank of Ender`)
+                    .setTitle(`Bank of Mocha`)
                     .setDescription(`Oops! You don't have a bank account, type \`bank create\` to create one.`)
                     .setColor("#e74c3c")
                 return message.channel.send(eEmbed); 
@@ -63,10 +63,10 @@ module.exports = {
                     bbalance = fetchedbank;
                 }
                 let wEmbed = new Discord.MessageEmbed()
-                    .setTitle(`🏦 Bank of Ender`)
+                    .setTitle(`Bank of Mocha`)
                     .setDescription(`Your bank balance and current balance are stated below.`)
-                    .addField("💸 Current", `$${balance.toLocaleString()}`, true)
-                    .addField("💳 In Bank Account", `$${fetchedbank.toLocaleString()}`, true)
+                    .addField("Current", `$${balance.toLocaleString()}`, true)
+                    .addField("In Bank Account", `$${fetchedbank.toLocaleString()}`, true)
                     .setColor("#2ecc71")
                     .setFooter(`Your bank account number is ${bankno}`, message.author.displayAvatarURL())
                 message.channel.send(wEmbed);  
@@ -84,7 +84,7 @@ module.exports = {
                 var people = ['the police', 'the cops', 'the council']
                 let p = people[Math.floor((Math.random() * people.length))];
                 let wEmbed = new Discord.MessageEmbed()
-                    .setTitle(`🏦 Bank of Ender`)
+                    .setTitle(`Bank of Mocha`)
                     .setDescription(`${message.author.username}, ${p} found out about your debt, so they gave you a kind warning.`)
                     .setColor("#2ecc71")
                     .setFooter(`Your bank account number is ${accnum}`, message.author.displayAvatarURL())
@@ -95,7 +95,7 @@ module.exports = {
                     var amt = parseFloat(fetched) + parseFloat(bal);
                     db.set(`balance-${message.author.id}`, amt);
                     let wEmbed = new Discord.MessageEmbed()
-                        .setTitle(`🏦 Bank of Ender`)
+                        .setTitle(`Bank of Mocha`)
                         .setDescription(`You **${reason}** and stole **$${bal}**`)
                         .setColor("#3498db")
                         .setFooter(`Your bank account number is ${accnum}`, message.author.displayAvatarURL())
@@ -108,7 +108,7 @@ module.exports = {
                     var amt = parseFloat(fetched) - parseFloat(lbal);
                     db.set(`balance-${message.author.id}`, amt);
                     let wEmbed = new Discord.MessageEmbed()
-                        .setTitle(`🏦 Bank of Ender`)
+                        .setTitle(`Bank of Mocha`)
                         .setDescription(`${message.author.username}, **${p}** were called and you were fined **$${lbal}**`)
                         .setColor("#e74c3c")
                         .setFooter(`Your bank account number is ${accnum}`, message.author.displayAvatarURL())
@@ -124,16 +124,16 @@ module.exports = {
                 var am = 10000;
                 db.set(`bankbalance-${message.author.id}`, am);
                 let wEmbed = new Discord.MessageEmbed()
-                    .setTitle(`🏦 Bank of Ender`)
+                    .setTitle(`Bank of Mocha`)
                     .setDescription(`${message.author.username}, your bank account has been created, and a +$10,000 bonus has been added to your bank account for joining!`)
-                    .addField("🔢 Bank Account Number", `\`${accnum}\``, true)
+                    .addField("Bank Account Number", `\`${accnum}\``, true)
                     .setColor("#3498db")
                     .setFooter(`Your bank account number is ${accnum}`, message.author.displayAvatarURL())
                 message.channel.send(wEmbed);                   
             }
             else {
                 let wEmbed = new Discord.MessageEmbed()
-                    .setTitle(`🏦 Bank of Ender`)
+                    .setTitle(`Bank of Mocha`)
                     .setDescription(`Hold up chief, you already got a bank account.`)
                     .setColor("#e74c3c")
                     .setFooter(`Your bank account number is ${bankno}`, message.author.displayAvatarURL())
@@ -147,7 +147,7 @@ module.exports = {
                     let bankno = await db.fetch(`bankaccnum-${message.member.id}`);
                     if (bankno === null) {
                         let eEmbed = new Discord.MessageEmbed()
-                            .setTitle(`🏦 Bank of Ender`)
+                            .setTitle(`Bank of Mocha`)
                             .setDescription(`Oops! You don't have a bank account, type \`bank create\` to create one.`)
                             .setColor("#e74c3c")
                         return message.channel.send(eEmbed);              
@@ -172,7 +172,7 @@ module.exports = {
                         console.log(fetched)
                         if(!bfetched) {
                             let wEmbed = new Discord.MessageEmbed()
-                                .setTitle(`🏦 Bank of Ender`)
+                                .setTitle(`Bank of Mocha`)
                                 .setDescription(`How did this happen! You have no money in your bank account to withdraw, try joining a job with \`bank work\`.`)
                                 .setColor("#e74c3c")
                                 .setFooter(`Your bank account number is ${bankno}`, message.author.displayAvatarURL())
@@ -182,7 +182,7 @@ module.exports = {
                         if(bfetched) {
                             if(bfetched < arg2) {
                                 let wEmbed = new Discord.MessageEmbed()
-                                    .setTitle(`🏦 Bank of Ender`)
+                                    .setTitle(`Bank of Mocha`)
                                     .setDescription(`You don't have enough money in your bank account to do this.`)
                                     .setColor("#e74c3c")
                                     .setFooter(`Your bank account number is ${bankno}`, message.author.displayAvatarURL())
@@ -210,11 +210,11 @@ module.exports = {
                                     nbbalance = nbfetched;
                                 } 
                                 let wEmbed = new Discord.MessageEmbed()
-                                    .setTitle(`🏦 Bank of Ender`)
+                                    .setTitle(`Bank of Mocha`)
                                     .setDescription(`**$${arg2}** has been transferred from your bank balance to your current balance.`)
                                     .setColor("#e74c3c")
-                                    .addField("💸 Current", `$${added.toLocaleString()}`, true)
-                                    .addField("💳 In Bank Account", `$${deducted.toLocaleString()}`, true)
+                                    .addField("Current", `$${added.toLocaleString()}`, true)
+                                    .addField("In Bank Account", `$${deducted.toLocaleString()}`, true)
                                     .setFooter(`Your bank account number is ${bankno}`, message.author.displayAvatarURL())
                                 message.channel.send(wEmbed);  
                             }
@@ -223,16 +223,16 @@ module.exports = {
                 }
                 if(isNaN(arg2) == true) {
                     let weEmbed = new Discord.MessageEmbed()
-                        .setTitle(`❌ That's not a number.`)
+                        .setTitle(`That's not a number.`)
                         .setDescription("That doesn't look like a number to me...")
                         .setColor("#e74c3c");
                     message.channel.send(weEmbed);
                 }
             if(!argu[2]) {
                 let weEmbed = new Discord.MessageEmbed()
-                    .setTitle(`❌ Missing argument!`)
+                    .setTitle(`Missing argument!`)
                     .setDescription("You must specify the amount you want to withdraw.")
-                    .addField("📘 Syntax", "`bank withdraw <number>`")
+                    .addField("Syntax", "`bank withdraw <number>`")
                     .setColor("#e74c3c");
                 message.channel.send(weEmbed);
             }
@@ -245,7 +245,7 @@ module.exports = {
                 let bankno = await db.fetch(`bankaccnum-${message.member.id}`);
                 if (bankno === null) {
                     let eEmbed = new Discord.MessageEmbed()
-                        .setTitle(`🏦 Bank of Ender`)
+                        .setTitle(`Bank of Mocha`)
                         .setDescription(`Oops! You don't have a bank account, type \`bank create\` to create one.`)
                         .setColor("#e74c3c")
                     return message.channel.send(eEmbed);              
@@ -270,7 +270,7 @@ module.exports = {
                     console.log(fetched)
                     if(!bfetched) {
                         let wEmbed = new Discord.MessageEmbed()
-                            .setTitle(`🏦 Bank of Ender`)
+                            .setTitle(`Bank of Mocha`)
                             .setDescription(`How did this happen! You have no money in your current account to withdraw, try joining a job with \`bank work\`.`)
                             .setColor("#e74c3c")
                             .setFooter(`Your bank account number is ${bankno}`, message.author.displayAvatarURL())
@@ -280,7 +280,7 @@ module.exports = {
                     if(bfetched) {
                         if(bfetched < arg2) {
                             let wEmbed = new Discord.MessageEmbed()
-                                .setTitle(`🏦 Bank of Ender`)
+                                .setTitle(`Bank of Mocha`)
                                 .setDescription(`You don't have enough money in your account to do this.`)
                                 .setColor("#e74c3c")
                                 .setFooter(`Your bank account number is ${bankno}`, message.author.displayAvatarURL())
@@ -308,11 +308,11 @@ module.exports = {
                                 nbbalance = nbfetched;
                             } 
                             let wEmbed = new Discord.MessageEmbed()
-                                .setTitle(`🏦 Bank of Ender`)
+                                .setTitle(`Bank of Mocha`)
                                 .setDescription(`**$${arg2}** has been transferred from your current balance to your bank balance.`)
                                 .setColor("#e74c3c")
-                                .addField("💸 Current", `$${rem.toLocaleString()}`, true)
-                                .addField("💳 In Bank Account", `$${add.toLocaleString()}`, true)
+                                .addField("Current", `$${rem.toLocaleString()}`, true)
+                                .addField("In Bank Account", `$${add.toLocaleString()}`, true)
                                 .setFooter(`Your bank account number is ${bankno}`, message.author.displayAvatarURL())
                             message.channel.send(wEmbed);  
                         }
@@ -321,7 +321,7 @@ module.exports = {
             }
             if(isNaN(arg2) == true) {
                 let weEmbed = new Discord.MessageEmbed()
-                    .setTitle(`❌ That's not a number.`)
+                    .setTitle(`That's not a number.`)
                     .setDescription("That doesn't look like a number to me...")
                     .setColor("#e74c3c");
                 message.channel.send(weEmbed);
@@ -370,7 +370,7 @@ module.exports = {
                     var chance = Math.floor(Math.random() * 2);
                     if (jobantispam.has(message.author.id)) {
                         const embed = new Discord.MessageEmbed()
-                            .setTitle("⌛ Chill out!")
+                            .setTitle("Chill out!")
                             .setColor("#e67e22")
                             .setDescription(`${message.author.username}, don't overwork yourself!`)
                         return message.channel.send({embed});
@@ -421,7 +421,7 @@ module.exports = {
             let bankno = await db.fetch(`bankaccnum-${message.member.id}`);
             if (bankno === null) {
                 let eEmbed = new Discord.MessageEmbed()
-                    .setTitle(`🏦 Bank of Ender`)
+                    .setTitle(`Bank of Ender`)
                     .setDescription(`Oops! You don't have a bank account, type \`bank create\` to create one.`)
                     .setColor("#e74c3c")
                 return message.channel.send(eEmbed); 
@@ -431,7 +431,7 @@ module.exports = {
                 let job = await db.fetch(`job-${message.member.id}`);
                 if(job) {
                     let wEmbed = new Discord.MessageEmbed()
-                        .setTitle(`🏦 Bank of Ender`)
+                        .setTitle(`Bank of Ender`)
                         .setDescription(`You must resign before switching jobs.`)
                         .setColor("#3498db")
                         .setFooter(`Your bank account number is ${bankno}`, message.author.displayAvatarURL())
@@ -441,52 +441,52 @@ module.exports = {
                     if(argu[2] == '1') {
                         db.set(`job-${message.author.id}`, "Boogle Inc.")
                         let eEmbed = new Discord.MessageEmbed()
-                            .setTitle(`🏦 Bank of Ender`)
+                            .setTitle(`Bank of Ender`)
                             .setDescription(`Welcome to **Boogle Inc**, **Employee #${epen}**! We want the best of the best here at **Boogle**.\n\n**Today's Agenda**\n - Delete Boogle+\n - Sell user identity to ~~hackers~~ nice people`)
                             .setColor("#e74c3c")
                             .setThumbnail("https://cdn-proxy.ender.site/img/boogle.png")
                             .setFooter(`Your bank account number is ${bankno}`, message.author.displayAvatarURL())
-                        return message.channel.send("💼 Get working on your new job with `bank work`!", eEmbed); 
+                        return message.channel.send("Get working on your new job with `bank work`!", eEmbed); 
                 }
                 if(argu[2] == '2') {
                     db.set(`job-${message.author.id}`, "Miscord Corporation")
                     let eEmbed = new Discord.MessageEmbed()
-                        .setTitle(`🏦 Bank of Ender`)
+                        .setTitle(`Bank of Ender`)
                         .setDescription(`Welcome to **Miscord Corporation**, **Employee #${epen}**! Don't worry, we fired that 🦊 ages ago.\n\n**Today's Agenda**\n - Everyone is working on T&S\n - Get the FBI (urgent)`)
                         .setColor("#e74c3c")
                         .setThumbnail("https://cdn-proxy.ender.site/img/miscord.png")
                         .setFooter(`Your bank account number is ${bankno}`, message.author.displayAvatarURL())
-                    return message.channel.send("💼 Get working on your new job with `bank work`!", eEmbed);                
+                    return message.channel.send("Get working on your new job with `bank work`!", eEmbed);                
                 }
                 if(argu[2] == '3') {
                     db.set(`job-${message.author.id}`, "Microhard Corporation")
                     let eEmbed = new Discord.MessageEmbed()
-                        .setTitle(`🏦 Bank of Ender`)
+                        .setTitle(`Bank of Ender`)
                         .setDescription(`Welcome to **Microhard Corporation**, **Employee #${epen}**! Doors 11 soon™\n\n**Today's Agenda**\n - Make Bong default search engine on all browsers\n - Make license keys 100% more expensive`)
                         .setColor("#e74c3c")
                         .setThumbnail("https://cdn-proxy.ender.site/img/microhard.png")
                         .setFooter(`Your bank account number is ${bankno}`, message.author.displayAvatarURL())
-                    return message.channel.send("💼 Get working on your new job with `bank work`!", eEmbed);                
+                    return message.channel.send("Get working on your new job with `bank work`!", eEmbed);                
                 }
                 if(argu[2] == '4') {
                     db.set(`job-${message.author.id}`, "Ayymazon Ltd")
                     let eEmbed = new Discord.MessageEmbed()
-                        .setTitle(`🏦 Bank of Ender`)
+                        .setTitle(`Bank of Ender`)
                         .setDescription(`Welcome to **Ayymazon Ltd**, **Employee #${epen}**! All dank memes are sold here ayy boi\n\n**Today's Agenda**\n - Sell memes\n - Pray to Jeff Bozos`)
                         .setColor("#e74c3c")
                         .setThumbnail("https://cdn-proxy.ender.site/img/ayymazon.png")
                         .setFooter(`Your bank account number is ${bankno}`, message.author.displayAvatarURL())
-                    return message.channel.send("💼 Get working on your new job with `bank work`!", eEmbed);                
+                    return message.channel.send("Get working on your new job with `bank work`!", eEmbed);                
                 }
                 if(argu[2] == '5') {
                     db.set(`job-${message.author.id}`, "Abay Inc.")
                     let eEmbed = new Discord.MessageEmbed()
-                        .setTitle(`🏦 Bank of Ender`)
+                        .setTitle(`Bank of Ender`)
                         .setDescription(`Welcome to **Abay Inc.**, **Employee #${epen}**! Cheap and nasty stuff from china!\n\n**Today's Agenda**\n - Convince the chinese to give us more junk\n - more 👏 paypal 👏 transactions 👏`)
                         .setColor("#e74c3c")
                         .setThumbnail("https://cdn-proxy.ender.site/img/abay.png")
                         .setFooter(`Your bank account number is ${bankno}`, message.author.displayAvatarURL())
-                    return message.channel.send("💼 Get working on your new job with `bank work`!", eEmbed);                
+                    return message.channel.send("Get working on your new job with `bank work`!", eEmbed);                
                 }
             }
         }
@@ -496,7 +496,7 @@ module.exports = {
             let bankno = await db.fetch(`bankaccnum-${message.member.id}`);
             if (bankno === null) {
                 let eEmbed = new Discord.MessageEmbed()
-                    .setTitle(`🏦 Bank of Ender`)
+                    .setTitle(`Bank of Ender`)
                     .setDescription(`Oops! You don't have a bank account to use your hackerman skills, type \`bank create\` to create one.`)
                     .setColor("#e74c3c")
                 return message.channel.send(eEmbed); 
@@ -504,7 +504,7 @@ module.exports = {
             else {
                 var ran = Math.random();
                 let aEmbed = new Discord.MessageEmbed()
-                    .setTitle(`❗ Warning!`)
+                    .setTitle(`Warning!`)
                     .setDescription(`This hack will set you back \`$${Math.round((ran*200))}\` if the hack fails, type \`yes\` if you are okay with this or \`no\` if you aren't.`)
                     .setColor("#e74c3c")
                 const e1 = await message.channel.send(aEmbed); 
@@ -517,7 +517,7 @@ module.exports = {
                 } catch (err) {
                     console.error(err);
                     const embed = new Discord.MessageEmbed()
-                        .setTitle(`🤦 ${message.author.tag}, you didn't pick anything!`)
+                        .setTitle(`${message.author.tag}, you didn't pick anything!`)
                         .setColor('#e74c3c')
                     return message.channel.send(embed)
                 }
@@ -526,7 +526,7 @@ module.exports = {
                     const muser = message.mentions.members.first();
                     var chance = Math.floor(Math.random());
                     let eEmbed = new Discord.MessageEmbed()
-                        .setTitle(`🏦 B̸͖͒a̸̯̿n̷̛̬k̴͂͜ ̶̗́ọ̴̉f̵̘̄ ̵̣͝Ę̴̃n̴͚̊d̴̮͑ȩ̷͌r̸̝̾`)
+                        .setTitle(`B̸͖͒a̸̯̿n̷̛̬k̴͂͜ ̶̗́ọ̴̉f̵̘̄ ̵̣͝Ę̴̃n̴͚̊d̴̮͑ȩ̷͌r̸̝̾`)
                         .setDescription(`Hacking into the mainframe...`)
                         .setColor("#e74c3c")
                     await e1.edit(eEmbed); 
