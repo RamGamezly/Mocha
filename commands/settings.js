@@ -9,12 +9,12 @@ module.exports = {
 	async execute(message, client, args) {
         if(args[0] === 'help') {
             const embed = new Discord.MessageEmbed()
-                .setTitle(`⚙ Server Settings`)
+                .setTitle(`Server Settings`)
                 .setDescription("Modify settings for this server.")
-                .addField("❗ Prefix", "You can edit the prefix for all commands by typing `settings prefix <value>`, to add spaces use `__` as a space.")
-                .addField("🕒 Antispam", "You can toggle antispam by typing `settings antispam`")
-                .addField("👋 Welcome Message", "You can edit the welcome message by typing `settings joinmsg`")
-                .addField("#⃣ Welcome Channel", "You can edit the join message channel by typing `settings joinchannel <channel>`")
+                .addField("Prefix", "You can edit the prefix for all commands by typing `settings prefix <value>`, to add spaces use `__` as a space.")
+                .addField("Antispam", "You can toggle antispam by typing `settings antispam`")
+                .addField("Welcome Message", "You can edit the welcome message by typing `settings joinmsg`")
+                .addField("Welcome Channel", "You can edit the join message channel by typing `settings joinchannel <channel>`")
                 .setColor('#3498db')
                 .setFooter(`Requested by ${message.author.username}`, message.author.displayAvatarURL())
             return message.channel.send(embed)   
@@ -51,12 +51,12 @@ module.exports = {
                 wc = `<#${wc}>`
             }
             const embed = new Discord.MessageEmbed()
-                .setTitle(`⚙ Server Config`)
+                .setTitle(`Server Config`)
                 .setDescription("The current configuration for this server. You can type `settings help` for a list of commands.")
-                .addField("❗ Prefix", `\`${prefix}\``)
-                .addField("🕒 Antispam", `${as}`)
-                .addField("👋 Welcome Message", `\`\`\`vbs\n${nwmsg}\`\`\``)
-                .addField("#⃣ Welcome Channel", wc)
+                .addField("Prefix", `\`${prefix}\``)
+                .addField("Antispam", `${as}`)
+                .addField("Welcome Message", `\`\`\`vbs\n${nwmsg}\`\`\``)
+                .addField("Welcome Channel", wc)
                 .setColor('#3498db')
                 .setFooter(`Requested by ${message.author.username}`, message.author.displayAvatarURL())
             message.channel.send(embed)             
@@ -76,15 +76,15 @@ module.exports = {
                 db.set(`prefix-${message.guild.id}`, prefix)
                 message.guild.me.setNickname(`Ender [${prefix}]`)
                 let wEmbed = new Discord.MessageEmbed()
-                    .setTitle(`👍 Prefix is now set to \`${prefix}\``)
+                    .setTitle(`Prefix is now set to \`${prefix}\``)
                     .setColor("#f1c40f");
                 message.channel.send(wEmbed);                     
             }
             if(!args[1]) {
                 let weEmbed = new Discord.MessageEmbed()
-                    .setTitle(`❌ Missing argument!`)
+                    .setTitle(`Missing argument!`)
                     .setDescription("You must specify something you want to change this server's prefix to.")
-                    .addField("📘 Syntax", "`settings prefix <prefix>`")
+                    .addField("Syntax", "`settings prefix <prefix>`")
                     .setColor("#e74c3c");
                 message.channel.send(weEmbed);                 
             }
@@ -95,7 +95,7 @@ module.exports = {
                 var value = true;
                 db.set(`spamfilter-${message.guild.id}`, value)
                     let wEmbed = new Discord.MessageEmbed()
-                        .setTitle(`👍 Antispam is now enabled on commands.`)
+                        .setTitle(`Antispam is now enabled on commands.`)
                         .setColor("#f1c40f");
                     return message.channel.send(wEmbed);   
             }
@@ -103,7 +103,7 @@ module.exports = {
                 var value = false;
                 db.set(`spamfilter-${message.guild.id}`, value)
                     let wEmbed = new Discord.MessageEmbed()
-                        .setTitle(`👍 Antispam is now disabled on commands.`)
+                        .setTitle(`Antispam is now disabled on commands.`)
                         .setColor("#f1c40f");
                     return message.channel.send(wEmbed);   
             }
@@ -111,7 +111,7 @@ module.exports = {
                 var value = true;
                 db.set(`spamfilter-${message.guild.id}`, value)
                     let wEmbed = new Discord.MessageEmbed()
-                        .setTitle(`👍 Antispam is now enabled on commands.`)
+                        .setTitle(`Antispam is now enabled on commands.`)
                         .setColor("#f1c40f");
                     return message.channel.send(wEmbed);  
             }
@@ -119,7 +119,7 @@ module.exports = {
         if(args[0] == 'joinmsg') {
             if(!args[1]) {
             const embed = new Discord.MessageEmbed()
-                .setTitle("👋 Join Message")
+                .setTitle("Join Message")
                 .setDescription("You can specify your join message by typing `settings joinmsg <message>`. You can also use all them variables below in your message.")
                 .addField("<:nametag:536559485381246996> `{{user}}`", `Returns '${message.author.username}'`, true)
                 .addField("<:nametag:536559485381246996> `{{discriminator}}`", `Returns '${message.author.discriminator}'`, true)
@@ -146,7 +146,7 @@ module.exports = {
             var fwmsg6 = fwmsg5.replace(/\n/g, "\n")
             db.set(`welcomemessage-${message.guild.id}`, fargss)
             let wEmbed = new Discord.MessageEmbed()
-                .setTitle(`👍 Join Message has been set.`)
+                .setTitle(`Join Message has been set.`)
                 .addField("🇵 Preview", fwmsg6)
                 .setColor("#f1c40f");
             message.channel.send(wEmbed);             
@@ -161,13 +161,13 @@ module.exports = {
                 var b = a.replace(">", "")
                 db.set(`welcomechannel-${message.guild.id}`, b)
                 let wEmbed = new Discord.MessageEmbed()
-                    .setTitle(`👍 Join Channel has been set.`)
+                    .setTitle(`Join Channel has been set.`)
                     .setColor("#f1c40f");
                 return message.channel.send(wEmbed);   
             }
             else {
                 let wEmbed = new Discord.MessageEmbed()
-                    .setTitle(`❌ That doesn't look like a channel.`)
+                    .setTitle(`That doesn't look like a channel.`)
                     .setColor("#e74c3c");
                 return message.channel.send(wEmbed);  
             }
