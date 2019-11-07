@@ -16,16 +16,15 @@ function Play(connection, message) {
         else {
             connection.disconnect();
             const embed = new Discord.MessageEmbed()
-                .setTitle("👋 Queue Finished, leaving voice channel.")
+                .setTitle("Queue Finished, leaving voice channel.")
                 .setDescription("You can always add another track to the queue by typing `!play` followed by a search query.")
                 .setColor('#3498db')
-                .setThumbnail("https://cdn-proxy.ender.site/enderbot.png")
             message.channel.send(embed);   
         }
     });
 }
 
-var botname = "Ender"
+var botname = "Mocha"
 var servers = []
 
 const client = new Discord.Client();
@@ -48,7 +47,7 @@ module.exports = {
             }
             else {
                 const embed = new Discord.MessageEmbed()
-                    .setTitle("🤔 Join a voice channel before playing music.")
+                    .setTitle("Join a voice channel before playing music.")
                     .setColor('#eb4d4b')
                 message.channel.send(embed);
                 console.error(`[${botname}] ${message.author.username}#${message.author.discriminator} tried to play music in ${message.guild} but wasn't in a voice channel.`)
