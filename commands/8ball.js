@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 var request = require('request');
 
-var botname = "Ender"
+var botname = "Mocha"
 
 module.exports = {
 	name: '8ball',
