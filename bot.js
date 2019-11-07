@@ -92,8 +92,8 @@ for (const file of musicCmdFiles) {
 }
 
 // Bot Options
-const botname = 'Ender';
-const owner = 'Ender#0002';
+const botname = 'Mocha❤';
+const owner = '𝔇𝔢𝔞𝔡𝔖𝔥𝔦𝔨𝔞𝔯𝔦𝔫';
 const queue = { };
 
 // Bot load event
@@ -135,14 +135,14 @@ client.on('message', async message => {
 	if(message.mentions.users.size > 0) {
 		if(message.mentions.users.first().id == '217562587938816000') {
 			const deviceParams = {};
-			pusher.note(deviceParams, 'Ender', `You were pinged by ${message.author.tag} in ${message.guild.name}`, function(error, response) {});
+			pusher.note(deviceParams, 'Mocha❤', `You were pinged by ${message.author.tag} in ${message.guild.name}`, function(error, response) {});
 		}
 		if(message.mentions.users.first().id == '371685425351229441') {
 			const fetched = await db.fetch(`prefix-${message.guild.id}`);
 			if (fetched === null) prefix = '!';
 			else prefix = fetched;
 			const embed = new Discord.MessageEmbed()
-				.setTitle('👋 Hi! I\'m Ender!')
+				.setTitle('Hi! I\'m Mocha❤!')
 				.setDescription(`In \`${message.guild.name}\`, the prefix is \`${prefix}\`.`)
 				.setColor('#3498db');
 			message.channel.send(embed);
@@ -235,7 +235,7 @@ client.on('message', async message => {
 
 
 const defaultSettings = {
-	prefix: '!',
+	prefix: '!m',
 	welcomeChannel: '',
 	welcomeMessage: 'Welcome **{{user}}** to **{{guild}}**!\n*Note, this is changable in `!settings`*',
 };
