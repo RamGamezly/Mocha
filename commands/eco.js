@@ -444,7 +444,6 @@ module.exports = {
                             .setTitle(`Bank of Mocha`)
                             .setDescription(`Welcome to **Boogle Inc**, **Employee #${epen}**! We want the best of the best here at **Boogle**.\n\n**Today's Agenda**\n - Delete Boogle+\n - Sell user identity to ~~hackers~~ nice people`)
                             .setColor("#e74c3c")
-                            .setThumbnail("https://cdn-proxy.ender.site/img/boogle.png")
                             .setFooter(`Your bank account number is ${bankno}`, message.author.displayAvatarURL())
                         return message.channel.send("Get working on your new job with `bank work`!", eEmbed); 
                 }
@@ -454,7 +453,6 @@ module.exports = {
                         .setTitle(`Bank of Mocha`)
                         .setDescription(`Welcome to **Miscord Corporation**, **Employee #${epen}**! Don't worry, we fired that 🦊 ages ago.\n\n**Today's Agenda**\n - Everyone is working on T&S\n - Get the FBI (urgent)`)
                         .setColor("#e74c3c")
-                        .setThumbnail("https://cdn-proxy.ender.site/img/miscord.png")
                         .setFooter(`Your bank account number is ${bankno}`, message.author.displayAvatarURL())
                     return message.channel.send("Get working on your new job with `bank work`!", eEmbed);                
                 }
@@ -464,7 +462,6 @@ module.exports = {
                         .setTitle(`Bank of Mocha`)
                         .setDescription(`Welcome to **Microhard Corporation**, **Employee #${epen}**! Doors 11 soon™\n\n**Today's Agenda**\n - Make Bong default search engine on all browsers\n - Make license keys 100% more expensive`)
                         .setColor("#e74c3c")
-                        .setThumbnail("https://cdn-proxy.ender.site/img/microhard.png")
                         .setFooter(`Your bank account number is ${bankno}`, message.author.displayAvatarURL())
                     return message.channel.send("Get working on your new job with `bank work`!", eEmbed);                
                 }
@@ -474,7 +471,6 @@ module.exports = {
                         .setTitle(`Bank of Mocha`)
                         .setDescription(`Welcome to **Ayymazon Ltd**, **Employee #${epen}**! All dank memes are sold here ayy boi\n\n**Today's Agenda**\n - Sell memes\n - Pray to Jeff Bozos`)
                         .setColor("#e74c3c")
-                        .setThumbnail("https://cdn-proxy.ender.site/img/ayymazon.png")
                         .setFooter(`Your bank account number is ${bankno}`, message.author.displayAvatarURL())
                     return message.channel.send("Get working on your new job with `bank work`!", eEmbed);                
                 }
@@ -484,7 +480,6 @@ module.exports = {
                         .setTitle(`Bank of Mocha`)
                         .setDescription(`Welcome to **Abay Inc.**, **Employee #${epen}**! Cheap and nasty stuff from china!\n\n**Today's Agenda**\n - Convince the chinese to give us more junk\n - more 👏 paypal 👏 transactions 👏`)
                         .setColor("#e74c3c")
-                        .setThumbnail("https://cdn-proxy.ender.site/img/abay.png")
                         .setFooter(`Your bank account number is ${bankno}`, message.author.displayAvatarURL())
                     return message.channel.send("Get working on your new job with `bank work`!", eEmbed);                
                 }
@@ -526,25 +521,25 @@ module.exports = {
                     const muser = message.mentions.members.first();
                     var chance = Math.floor(Math.random());
                     let eEmbed = new Discord.MessageEmbed()
-                        .setTitle(`B̸͖͒a̸̯̿n̷̛̬k̴͂͜ ̶̗́ọ̴̉f̵̘̄ ̵̣͝Ę̴̃n̴͚̊d̴̮͑ȩ̷͌r̸̝̾`)
+                        .setTitle(`B̶̺̤̪̈́͊͗́͠a̶͖̋̂͑̆̅͠ṅ̶͎͙̹̦̫̓̎̔̓̚̕̕͠͝k̴̡̮͕̺̺̹̓ ̴̗̳̜̦̗͑̐̌̿͌̀̾̇͝ͅͅǫ̸̖̹͉̾͠f̵̧͖̦̬̲͕̩̙͖̓̇ ̶̺̖̝̮̠͎͑̈̌͒̍͘͜͝Ḿ̶̬̖͔̩̼̗̆̀͑̌̌͑̀̚͠o̸̡̖͇̖̫̖̜̝̓̔͘ͅc̵͓̏͋͋͌̀h̷̢̺̥̜͎̝͙͛̉̍̈́͑̏a̷̢̬̩͎̣̞̠̺̽̔̆͊`)
                         .setDescription(`Hacking into the mainframe...`)
                         .setColor("#e74c3c")
                     await e1.edit(eEmbed); 
                     wait(1000);
                     let eEmbed2 = new Discord.MessageEmbed()
-                        .setTitle(`🏦 B̸͖͒a̸̯̿n̷̛̬k̴͂͜ ̶̗́ọ̴̉f̵̘̄ ̵̣͝Ę̴̃n̴͚̊d̴̮͑ȩ̷͌r̸̝̾`)
+                        .setTitle(`B̶̺̤̪̈́͊͗́͠a̶͖̋̂͑̆̅͠ṅ̶͎͙̹̦̫̓̎̔̓̚̕̕͠͝k̴̡̮͕̺̺̹̓ ̴̗̳̜̦̗͑̐̌̿͌̀̾̇͝ͅͅǫ̸̖̹͉̾͠f̵̧͖̦̬̲͕̩̙͖̓̇ ̶̺̖̝̮̠͎͑̈̌͒̍͘͜͝Ḿ̶̬̖͔̩̼̗̆̀͑̌̌͑̀̚͠o̸̡̖͇̖̫̖̜̝̓̔͘ͅc̵͓̏͋͋͌̀h̷̢̺̥̜͎̝͙͛̉̍̈́͑̏a̷̢̬̩͎̣̞̠̺̽̔̆͊`)
                         .setDescription(`Performing a reverse connection check...`)
                         .setColor("#e74c3c")
                     await e1.edit(eEmbed2)   
                     wait(1050);  
                     let eEmbed3 = new Discord.MessageEmbed()
-                        .setTitle(`🏦 B̸͖͒a̸̯̿n̷̛̬k̴͂͜ ̶̗́ọ̴̉f̵̘̄ ̵̣͝Ę̴̃n̴͚̊d̴̮͑ȩ̷͌r̸̝̾`)
+                        .setTitle(`B̶̺̤̪̈́͊͗́͠a̶͖̋̂͑̆̅͠ṅ̶͎͙̹̦̫̓̎̔̓̚̕̕͠͝k̴̡̮͕̺̺̹̓ ̴̗̳̜̦̗͑̐̌̿͌̀̾̇͝ͅͅǫ̸̖̹͉̾͠f̵̧͖̦̬̲͕̩̙͖̓̇ ̶̺̖̝̮̠͎͑̈̌͒̍͘͜͝Ḿ̶̬̖͔̩̼̗̆̀͑̌̌͑̀̚͠o̸̡̖͇̖̫̖̜̝̓̔͘ͅc̵͓̏͋͋͌̀h̷̢̺̥̜͎̝͙͛̉̍̈́͑̏a̷̢̬̩͎̣̞̠̺̽̔̆͊`)
                         .setDescription(`Rerouting all internal security measures...`)
                         .setColor("#e74c3c")
                     await e1.edit(eEmbed3) 
                     wait(1050);  
                     let eEmbed4 = new Discord.MessageEmbed()
-                        .setTitle(`🏦 B̸͖͒a̸̯̿n̷̛̬k̴͂͜ ̶̗́ọ̴̉f̵̘̄ ̵̣͝Ę̴̃n̴͚̊d̴̮͑ȩ̷͌r̸̝̾`)
+                        .setTitle(`B̶̺̤̪̈́͊͗́͠a̶͖̋̂͑̆̅͠ṅ̶͎͙̹̦̫̓̎̔̓̚̕̕͠͝k̴̡̮͕̺̺̹̓ ̴̗̳̜̦̗͑̐̌̿͌̀̾̇͝ͅͅǫ̸̖̹͉̾͠f̵̧͖̦̬̲͕̩̙͖̓̇ ̶̺̖̝̮̠͎͑̈̌͒̍͘͜͝Ḿ̶̬̖͔̩̼̗̆̀͑̌̌͑̀̚͠o̸̡̖͇̖̫̖̜̝̓̔͘ͅc̵͓̏͋͋͌̀h̷̢̺̥̜͎̝͙͛̉̍̈́͑̏a̷̢̬̩͎̣̞̠̺̽̔̆͊`)
                         .setDescription(`Brute forcing silently...`)
                         .setColor("#e74c3c")
                     await e1.edit(eEmbed4)   
@@ -552,14 +547,14 @@ module.exports = {
                     var per = Math.floor(Math.random() * ((100-90)+1) + 90);
                     if (ran > 0.9) {
                         let eEmbed5 = new Discord.MessageEmbed()
-                            .setTitle(`🏦 B̸͖͒a̸̯̿n̷̛̬k̴͂͜ ̶̗́ọ̴̉f̵̘̄ ̵̣͝Ę̴̃n̴͚̊d̴̮͑ȩ̷͌r̸̝̾`)
+                            .setTitle(`B̶̺̤̪̈́͊͗́͠a̶͖̋̂͑̆̅͠ṅ̶͎͙̹̦̫̓̎̔̓̚̕̕͠͝k̴̡̮͕̺̺̹̓ ̴̗̳̜̦̗͑̐̌̿͌̀̾̇͝ͅͅǫ̸̖̹͉̾͠f̵̧͖̦̬̲͕̩̙͖̓̇ ̶̺̖̝̮̠͎͑̈̌͒̍͘͜͝Ḿ̶̬̖͔̩̼̗̆̀͑̌̌͑̀̚͠o̸̡̖͇̖̫̖̜̝̓̔͘ͅc̵͓̏͋͋͌̀h̷̢̺̥̜͎̝͙͛̉̍̈́͑̏a̷̢̬̩͎̣̞̠̺̽̔̆͊`)
                             .setDescription(`Hack success, \`$${Math.round((ran*200))}\` was salvaged from ${muser.user.username}#${muser.user.discriminator}'s bank account.`)
                             .setColor("#e74c3c")
                         await e1.edit(eEmbed5)
                     } 
                     else {
                         let eEmbed5 = new Discord.MessageEmbed()
-                            .setTitle(`🏦 B̸͖͒a̸̯̿n̷̛̬k̴͂͜ ̶̗́ọ̴̉f̵̘̄ ̵̣͝Ę̴̃n̴͚̊d̴̮͑ȩ̷͌r̸̝̾`)
+                            .setTitle(`B̶̺̤̪̈́͊͗́͠a̶͖̋̂͑̆̅͠ṅ̶͎͙̹̦̫̓̎̔̓̚̕̕͠͝k̴̡̮͕̺̺̹̓ ̴̗̳̜̦̗͑̐̌̿͌̀̾̇͝ͅͅǫ̸̖̹͉̾͠f̵̧͖̦̬̲͕̩̙͖̓̇ ̶̺̖̝̮̠͎͑̈̌͒̍͘͜͝Ḿ̶̬̖͔̩̼̗̆̀͑̌̌͑̀̚͠o̸̡̖͇̖̫̖̜̝̓̔͘ͅc̵͓̏͋͋͌̀h̷̢̺̥̜͎̝͙͛̉̍̈́͑̏a̷̢̬̩͎̣̞̠̺̽̔̆͊`)
                             .setDescription(`Hack failed on ${muser.user.username}#${muser.user.discriminator}, another source closed the connection, \`$${Math.round((ran*200))}\` was lost.`)
                             .setColor("#e74c3c")
                             .setFooter(`There was a ${per}% chance of that hack failing.`, message.author.displayAvatarURL())
