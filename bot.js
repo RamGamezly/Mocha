@@ -311,4 +311,4 @@ client.on('guildMemberAdd', async (member, user) => {
 });
 
 
-client.login(process.env.BOT_TOKEN);
+client.login('NjQxNzk4OTU0MDk4MzYwMzQw.XcjsIw.ySCu7bx3ilbFY3_Vjlz9m4Jb9Vc');
