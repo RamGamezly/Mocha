@@ -109,7 +109,7 @@ client.on('ready', () => {
 			`!help • ${members.toLocaleString()} users`,
 		];
 		const random = Math.floor(Math.random() * statuslist.length);
-		client.user.setActivity(statuslist[random], { type: 'STREAMING', url: 'https://twitch.tv/enderbot___' })
+		client.user.setActivity(statuslist[random], { type: 'STREAMING', url: 'https://www.twitch.tv/ramgamezly' })
 			.catch(console.error);
 	}
 
